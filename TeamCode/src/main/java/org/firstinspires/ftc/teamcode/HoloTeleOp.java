@@ -12,6 +12,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Devices.DriveBase;
 
 
@@ -20,30 +24,89 @@ import org.firstinspires.ftc.teamcode.Devices.DriveBase;
  * Created by aloto10107 on 9/6/17.
  */
 
-@TeleOp(name = "theTeleOpMode", group = "Driver Controlled")
-public abstract class HoloTeleOp extends OpMode {
+@TeleOp(name = "HoloTeleOp", group = "Driver Controlled")
+public class HoloTeleOp extends OpMode {
 
     public DriveBase drive;
+    Orientation angles;
 
 
     @Override
     public void init() {
+
         drive = new DriveBase(hardwareMap);
+        drive.imuINIT();
     }
 
     @Override
     public void loop() {
-        double rightY = gamepad1.left_stick_y;
-        double rightX = gamepad1.left_stick_x;
-        double leftX = gamepad1.right_stick_x;
+        double leftY = 0.7123*gamepad1.left_stick_y;
+        double leftX = 0.7123*gamepad1.left_stick_x;
+        double rightX = 0.5123*gamepad1.right_stick_x;
 
-        drive.setMotor_bl(rightY - rightX - leftX);
-        drive.setMotor_fl(rightY + rightX - leftX);
-        drive.setMotor_br(rightY + rightX + leftX);
-        drive.setMotor_fr(rightY - rightX + leftX);
+        if (Math.abs(gamepad1.left_stick_y) < .1){
 
+            leftY = 0;
+        }
+        if (Math.abs(gamepad1.left_stick_x) < .1){
+
+            leftX = 0;
+        }
+        if (Math.abs(gamepad1.right_stick_x) < .1){
+
+            rightX = 0;
+        }
+
+        drive.setMotor_bl(leftY + leftX - rightX);
+        drive.setMotor_fl(leftY - leftX - rightX);
+        drive.setMotor_br(leftY - leftX + rightX);
+        drive.setMotor_fr(leftY + leftX + rightX);
+
+        if (gamepad1.dpad_up){
+            drive.setMotor_bl(-0.6);
+            drive.setMotor_fl(-0.6);
+            drive.setMotor_br(-0.6);
+            drive.setMotor_fr(-0.6);
+        }
+        if (gamepad1.dpad_down){
+            drive.setMotor_bl(0.6);
+            drive.setMotor_fl(0.6);
+            drive.setMotor_br(0.6);
+            drive.setMotor_fr(0.6);
+        }
+        if (gamepad1.dpad_right){
+            drive.setMotor_bl(-0.6);
+            drive.setMotor_fl(0.6);
+            drive.setMotor_br(0.6);
+            drive.setMotor_fr(-0.6);
+        }
+        if (gamepad1.dpad_left){
+            drive.setMotor_bl(0.6);
+            drive.setMotor_fl(-0.6);
+            drive.setMotor_br(-0.6);
+            drive.setMotor_fr(0.6);
+        }
+
+        drive.setLift(0.9*(gamepad2.left_stick_y));
+        drive.setSidearm(0.9*(gamepad2.right_stick_x));
+
+        if (gamepad2.a){
+            drive.pinch();
+        }
+        if (!gamepad2.a){
+            drive.notPinch();
+        }
+        if (gamepad2.b){
+            drive.grab();
+        }
+        if (!gamepad2.b){
+            drive.Notgrab();
+        }
+
+        telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
 
     }
+
 }
 
 
