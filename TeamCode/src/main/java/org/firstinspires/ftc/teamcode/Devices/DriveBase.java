@@ -148,8 +148,15 @@ public class DriveBase {
     public void gyroTurn(float degrees){
 
         float error;
+        float Kp = 1;
         error = degrees - getHeading();
-
+        while (Math.abs(error) > 5)
+        {
+            setMotor_bl(error * Kp);
+            setMotor_fl(error * Kp);
+            setMotor_br(error * Kp);
+            setMotor_fr(error * Kp);
+        }
     }
 
 }
