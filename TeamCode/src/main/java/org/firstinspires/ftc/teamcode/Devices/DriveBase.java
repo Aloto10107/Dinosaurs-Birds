@@ -2,18 +2,30 @@ package org.firstinspires.ftc.teamcode.Devices;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.sun.tools.javac.tree.DCTree;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
-public class DriveBase {
+import static com.sun.tools.javac.util.Constants.format;
+
+public class DriveBase extends LinearOpMode{
     private DcMotor[] leftMotors;
     private DcMotor[] rightMotors;
     private DcMotor lift;
@@ -22,6 +34,8 @@ public class DriveBase {
     private Servo relicgrab;
     BNO055IMU imu;
     public Orientation angles;
+
+    VuforiaLocalizer vuforia;
 
     public DriveBase(HardwareMap hardwareMap) {
         leftMotors = new DcMotor[2];
@@ -150,13 +164,15 @@ public class DriveBase {
         float error;
         float Kp = 1;
         error = degrees - getHeading();
-        while (Math.abs(error) > 5)
-        {
-            setMotor_bl(error * Kp);
-            setMotor_fl(error * Kp);
-            setMotor_br(error * Kp);
-            setMotor_fr(error * Kp);
-        }
+        setMotor_bl(error * Kp);
+        setMotor_fl(error * Kp);
+        setMotor_br(error * Kp);
+        setMotor_fr(error * Kp);
     }
+    @Override
+    public void runOpMode() throws InterruptedException {
 
+    }
 }
+
+

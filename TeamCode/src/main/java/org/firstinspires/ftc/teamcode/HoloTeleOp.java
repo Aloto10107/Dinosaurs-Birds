@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.Devices.DriveBase;
 
 
@@ -29,14 +30,14 @@ public class HoloTeleOp extends OpMode {
 
     public DriveBase drive;
     Orientation angles;
-
+    public ConceptVuMarkIdentification vuforia;
 
     @Override
     public void init() {
 
+        vuforia = new ConceptVuMarkIdentification();
         drive = new DriveBase(hardwareMap);
-        //drive.imuINIT();
-        //drive.gyroTurn(90);
+        drive.imuINIT();
     }
 
     @Override
@@ -104,6 +105,7 @@ public class HoloTeleOp extends OpMode {
             drive.Notgrab();
         }
 
+        //vuforia.runOpMode();
         telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
 
     }
