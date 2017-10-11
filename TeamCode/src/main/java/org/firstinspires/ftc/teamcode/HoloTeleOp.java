@@ -99,13 +99,22 @@ public class HoloTeleOp extends OpMode {
             drive.notPinch();
         }
         if (gamepad2.b){
-            drive.grab();
+            drive.closeJaws();
         }
         if (!gamepad2.b){
-            drive.Notgrab();
+            drive.openJaws();
         }
 
-        //vuforia.runOpMode();
+        if (gamepad2.dpad_up)
+        {
+            drive.skillup();
+        }
+        if (gamepad2.dpad_down)
+        {
+            drive.skilldown();
+        }
+
+
         telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
 
     }

@@ -31,7 +31,8 @@ public class DriveBase extends LinearOpMode{
     private DcMotor lift;
     private DcMotor sidearm;
     private Servo[] pinchies;
-    private Servo relicgrab;
+    private Servo skill_crane;
+    private Servo jaws;
     BNO055IMU imu;
     public Orientation angles;
 
@@ -56,12 +57,13 @@ public class DriveBase extends LinearOpMode{
         pinchies[0] = hardwareMap.servo.get("pinch_r");
         pinchies[1] = hardwareMap.servo.get("pinch_l");
 
-        relicgrab = hardwareMap.servo.get("RelicGrab");
-
         lift = hardwareMap.dcMotor.get("PinchArm");
         sidearm = hardwareMap.dcMotor.get("SideArm");
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        skill_crane = hardwareMap.servo.get("skill_crane");
+        jaws = hardwareMap.servo.get("jaws");
     }
     // Sets power of the two left motors
     public synchronized void setLeft(double power)
@@ -137,14 +139,23 @@ public class DriveBase extends LinearOpMode{
         pinchies[0].setPosition(.6);
         pinchies[1].setPosition(.4);
     }
-    public void grab()
-    {
-        relicgrab.setPosition(0);
+    public void openJaws(){
+        jaws.setPosition(0);
     }
-    public void Notgrab()
-    {
-        relicgrab.setPosition(1);
+    public void closeJaws(){
+        jaws.setPosition(1);
     }
+    public void skillup(){
+/*        double newPos = skill_crane.getPosition() + 0.2;
+        skill_crane.setPosition(newPos);*/
+        skill_crane.setPosition(0);
+    }
+    public void skilldown(){
+/*        double newPos = skill_crane.getPosition() - 0.2;
+        skill_crane.setPosition(newPos);*/
+        skill_crane.setPosition(1);
+    }
+
     public void imuINIT(){
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
