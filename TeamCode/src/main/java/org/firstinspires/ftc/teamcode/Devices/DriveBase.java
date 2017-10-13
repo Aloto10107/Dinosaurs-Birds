@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.sun.tools.javac.tree.DCTree;
@@ -24,6 +25,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import static com.sun.tools.javac.util.Constants.format;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 public class DriveBase extends LinearOpMode{
     private DcMotor[] leftMotors;
@@ -34,7 +36,10 @@ public class DriveBase extends LinearOpMode{
     private Servo skill_crane;
     private Servo jaws;
     BNO055IMU imu;
-    public Orientation angles;
+    private Orientation angles;
+    private ColorSensor color;
+    private DistanceSensor distance;
+
 
     VuforiaLocalizer vuforia;
 
@@ -64,6 +69,8 @@ public class DriveBase extends LinearOpMode{
 
         skill_crane = hardwareMap.servo.get("skill_crane");
         jaws = hardwareMap.servo.get("jaws");
+
+        color = hardwareMap.colorSensor.get("color");
     }
     // Sets power of the two left motors
     public synchronized void setLeft(double power)
@@ -180,6 +187,16 @@ public class DriveBase extends LinearOpMode{
         setMotor_br(error * Kp);
         setMotor_fr(error * Kp);
     }
+
+    public int[] getColor() {
+
+        int red = color.red();
+        int green = color.green();
+        int blue = color.blue();
+        int[] colors = new int[] {red, green, blue};
+        return colors;
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
 
