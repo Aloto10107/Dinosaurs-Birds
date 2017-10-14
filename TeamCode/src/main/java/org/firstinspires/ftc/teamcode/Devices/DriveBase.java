@@ -186,6 +186,9 @@ public class DriveBase extends LinearOpMode{
         setMotor_fl(error * Kp);
         setMotor_br(error * Kp);
         setMotor_fr(error * Kp);
+        if (error <= 5){
+            return;
+        }
     }
 
     public int[] getColor() {
