@@ -49,8 +49,7 @@ public class BlueRightAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        drive.gyroTurn(90);
-
+        //drive.gyroTurn(90);
 
 
         while (opModeIsActive()) {
@@ -89,6 +88,11 @@ public class BlueRightAuto extends LinearOpMode {
                     double rX = rot.firstAngle;
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
+
+                    telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
+                    telemetry.addData("error", String.valueOf(drive.error));
+
+                    telemetry.update();
                 }
             }
 

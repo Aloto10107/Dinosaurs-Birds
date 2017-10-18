@@ -39,6 +39,8 @@ public class DriveBase extends LinearOpMode{
     private Orientation angles;
     private ColorSensor color;
     private DistanceSensor distance;
+    public float error;
+
 
 
     VuforiaLocalizer vuforia;
@@ -179,11 +181,10 @@ public class DriveBase extends LinearOpMode{
     }
     public void gyroTurn(float degrees){
 
-        float error;
-        float Kp = 1;
-        error = degrees - getHeading();
-        setMotor_bl(error * Kp);
-        setMotor_fl(error * Kp);
+        float Kp = (float) 0.005;
+        error = degrees - getHeading() ;
+        setMotor_bl(-error * Kp);
+        setMotor_fl(-error * Kp);
         setMotor_br(error * Kp);
         setMotor_fr(error * Kp);
         if (error <= 5){

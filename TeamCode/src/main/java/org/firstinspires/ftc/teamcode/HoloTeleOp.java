@@ -42,11 +42,11 @@ public class HoloTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        double leftY = 0.7123*gamepad1.left_stick_y;
-        double leftX = 0.7123*gamepad1.left_stick_x;
+        double leftY = 0.8654*gamepad1.left_stick_y;
+        double leftX = 0.8654*gamepad1.left_stick_x;
         double rightX = 0.5123*gamepad1.right_stick_x;
 
-        if (Math.abs(gamepad1.left_stick_y) < .1){
+        /*if (Math.abs(gamepad1.left_stick_y) < .1){
 
             leftY = 0;
         }
@@ -57,7 +57,7 @@ public class HoloTeleOp extends OpMode {
         if (Math.abs(gamepad1.right_stick_x) < .1){
 
             rightX = 0;
-        }
+        }*/
 
         drive.setMotor_bl(leftY + leftX - rightX);
         drive.setMotor_fl(leftY - leftX - rightX);
@@ -114,7 +114,7 @@ public class HoloTeleOp extends OpMode {
             drive.skilldown();
         }
 
-        telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
+        //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
         telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " +  String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
     }
 
