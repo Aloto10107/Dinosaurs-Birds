@@ -8,7 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 import com.sun.tools.javac.tree.DCTree;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -17,6 +19,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -35,13 +38,13 @@ public class DriveBase extends LinearOpMode{
     private Servo[] pinchies;
     private Servo skill_crane;
     private Servo jaws;
+    public Servo upanddown;
     BNO055IMU imu;
     private Orientation angles;
     private ColorSensor color;
-    private DistanceSensor distance;
-    public float error;
-
-
+    public DistanceSensor distance;
+    public float Gerror;
+    public float Derror;
 
     VuforiaLocalizer vuforia;
 
@@ -71,8 +74,9 @@ public class DriveBase extends LinearOpMode{
 
         skill_crane = hardwareMap.servo.get("skill_crane");
         jaws = hardwareMap.servo.get("jaws");
-
-        color = hardwareMap.colorSensor.get("color");
+        upanddown = hardwareMap.servo.get("upanddown");
+        color = hardwareMap.get(ColorSensor.class, "color");
+        distance = hardwareMap.get(DistanceSensor.class, "color");
     }
     // Sets power of the two left motors
     public synchronized void setLeft(double power)
@@ -102,6 +106,17 @@ public class DriveBase extends LinearOpMode{
         setLeft(leftPower);
         setRight(rightPower);
     }
+    public synchronized void turn(double power, long time){
+        setMotor_bl(-power);
+        setMotor_fl(-power);
+        setMotor_br(power);
+        setMotor_fr(power);
+        sleep(time);
+        setMotor_bl(0);
+        setMotor_fl(0);
+        setMotor_br(0);
+        setMotor_fr(0);
+     }
     public synchronized void setMotor_fl(double power)
     {
         double convertedPower = (power);
@@ -182,12 +197,24 @@ public class DriveBase extends LinearOpMode{
     public void gyroTurn(float degrees){
 
         float Kp = (float) 0.005;
-        error = degrees - getHeading() ;
-        setMotor_bl(-error * Kp);
-        setMotor_fl(-error * Kp);
-        setMotor_br(error * Kp);
-        setMotor_fr(error * Kp);
-        if (error <= 5){
+        Gerror = degrees - getHeading() ;
+        setMotor_bl(-Gerror * Kp);
+        setMotor_fl(-Gerror * Kp);
+        setMotor_br(Gerror * Kp);
+        setMotor_fr(Gerror * Kp);
+        if (Gerror <= 5){
+            return;
+        }
+    }
+    public void toDistance(float position){
+
+        float Kp = (float) 0.005;
+        Derror = (float) (position - distance.getDistance(DistanceUnit.MM));
+        setMotor_bl(-Derror * Kp);
+        setMotor_fl(-Derror * Kp);
+        setMotor_br(Derror * Kp);
+        setMotor_fr(Derror * Kp);
+        if (Derror <= 10){
             return;
         }
     }

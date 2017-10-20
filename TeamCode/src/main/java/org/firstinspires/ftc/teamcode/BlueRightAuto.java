@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -30,7 +31,6 @@ public class BlueRightAuto extends LinearOpMode {
     Orientation angles;
 
 
-
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -49,8 +49,16 @@ public class BlueRightAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        //drive.gyroTurn(90);
+        drive.upanddown.setPosition(0.5);
+        drive.toDistance(0);
+        if(drive.getColor()[2] >= 200){
+            drive.turn(.5, 100);
+        }
+        else if (drive.getColor()[0] >= 200){
+            drive.turn(-.5, 100);
+        }
 
+        //drive.gyroTurn(90);
 
         while (opModeIsActive()) {
             /**
@@ -89,14 +97,16 @@ public class BlueRightAuto extends LinearOpMode {
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
 
-                    telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
-                    telemetry.addData("error", String.valueOf(drive.error));
-
-                    telemetry.update();
                 }
             }
+            else {
+                telemetry.addData("VuMark", "not visible");
+            }
 
+            telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
+            telemetry.addData("error", String.valueOf(drive.Gerror));
 
+            telemetry.update();
         }
     }
 }
