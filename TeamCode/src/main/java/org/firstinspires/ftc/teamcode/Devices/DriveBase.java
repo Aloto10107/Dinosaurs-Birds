@@ -196,26 +196,40 @@ public class DriveBase extends LinearOpMode{
     }
     public void gyroTurn(float degrees){
 
-        float Kp = (float) 0.005;
-        Gerror = degrees - getHeading() ;
-        setMotor_bl(-Gerror * Kp);
-        setMotor_fl(-Gerror * Kp);
-        setMotor_br(Gerror * Kp);
-        setMotor_fr(Gerror * Kp);
-        if (Gerror <= 5){
-            return;
+        Gerror = getHeading() - degrees;
+        while (Math.abs(Gerror) >= 4) {
+            float Kp = (float) 0.01;
+            Gerror = getHeading() - degrees;
+            setMotor_bl(-Gerror * Kp);
+            setMotor_fl(-Gerror * Kp);
+            setMotor_br(Gerror * Kp);
+            setMotor_fr(Gerror * Kp);
+            if (Math.abs(Gerror) <= 4) {
+                setMotor_bl(0);
+                setMotor_fl(0);
+                setMotor_br(0);
+                setMotor_fr(0);
+                break;
+            }
         }
     }
     public void toDistance(float position){
 
-        float Kp = (float) 0.005;
-        Derror = (float) (position - distance.getDistance(DistanceUnit.MM));
-        setMotor_bl(-Derror * Kp);
-        setMotor_fl(-Derror * Kp);
-        setMotor_br(Derror * Kp);
-        setMotor_fr(Derror * Kp);
-        if (Derror <= 10){
-            return;
+        Derror = (float) (distance.getDistance(DistanceUnit.MM) - position);
+        while (Math.abs(Derror) >= 4) {
+            float Kp = (float) 0.01;
+            Derror = (float) (distance.getDistance(DistanceUnit.MM) - position);
+            setMotor_bl(-Derror * Kp);
+            setMotor_fl(-Derror * Kp);
+            setMotor_br(Derror * Kp);
+            setMotor_fr(Derror * Kp);
+            if (Math.abs(Derror) <= 4) {
+                setMotor_bl(0);
+                setMotor_fl(0);
+                setMotor_br(0);
+                setMotor_fr(0);
+                break;
+            }
         }
     }
 
@@ -227,6 +241,8 @@ public class DriveBase extends LinearOpMode{
         int[] colors = new int[] {red, green, blue};
         return colors;
     }
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {

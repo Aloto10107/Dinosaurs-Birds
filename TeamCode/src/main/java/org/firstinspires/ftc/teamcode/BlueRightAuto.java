@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -49,16 +50,31 @@ public class BlueRightAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        drive.upanddown.setPosition(0.5);
+        //drive.upanddown.setDirection(Servo.Direction.REVERSE);
+        //drive.gyroTurn(90);
+        //sleep(100);
+        /*drive.upanddown.setPosition(0);
         drive.toDistance(0);
         if(drive.getColor()[2] >= 200){
             drive.turn(.5, 100);
         }
         else if (drive.getColor()[0] >= 200){
             drive.turn(-.5, 100);
+        }*/
+
+
+        //FOR TESTING COLOR SENSOR ((USE PHONE CAMERA??_))
+        drive.upanddown.setPosition(1);
+        if(drive.getColor()[2] >= 200)
+        {
+            drive.upanddown.setPosition(-.5);
         }
 
-        //drive.gyroTurn(90);
+
+
+
+
+
 
         while (opModeIsActive()) {
             /**
@@ -105,6 +121,9 @@ public class BlueRightAuto extends LinearOpMode {
 
             telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
             telemetry.addData("error", String.valueOf(drive.Gerror));
+            telemetry.addData("red", drive.getColor()[0]);
+            telemetry.addData("green", drive.getColor()[1]);
+            telemetry.addData("blue", drive.getColor()[2]);
 
             telemetry.update();
         }
