@@ -50,25 +50,18 @@ public class BlueRightAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        //drive.upanddown.setDirection(Servo.Direction.REVERSE);
-        //drive.gyroTurn(90);
-        //sleep(100);
-        /*drive.upanddown.setPosition(0);
-        drive.toDistance(0);
-        if(drive.getColor()[2] >= 200){
-            drive.turn(.5, 100);
-        }
-        else if (drive.getColor()[0] >= 200){
-            drive.turn(-.5, 100);
-        }*/
-
-
-        //FOR TESTING COLOR SENSOR ((USE PHONE CAMERA??_))
         drive.upanddown.setPosition(1);
+        drive.toDistance(0);
+        wait(200);
         if(drive.getColor()[2] >= 200)
         {
-            drive.upanddown.setPosition(-.5);
+            drive.turn(.5,100);
         }
+        else
+        {
+            drive.turn(-.5,100);
+        }
+        drive.gyroTurn(0);
 
 
 

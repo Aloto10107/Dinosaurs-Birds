@@ -63,9 +63,12 @@ public class DriveBase extends LinearOpMode{
         rightMotors[0].setDirection(DcMotorSimple.Direction.REVERSE);
         rightMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
 
-        pinchies = new Servo[2];
-        pinchies[0] = hardwareMap.servo.get("pinch_r");
-        pinchies[1] = hardwareMap.servo.get("pinch_l");
+        pinchies = new Servo[5];
+        pinchies[0] = hardwareMap.servo.get("top_right");
+        pinchies[1] = hardwareMap.servo.get("top_left");
+        pinchies[2] = hardwareMap.servo.get("bottom_right");
+        pinchies[3] = hardwareMap.servo.get("bottom_left");
+        pinchies[4] = hardwareMap.servo.get("center");
 
         lift = hardwareMap.dcMotor.get("PinchArm");
         sidearm = hardwareMap.dcMotor.get("SideArm");
@@ -155,13 +158,26 @@ public class DriveBase extends LinearOpMode{
     }
     public void pinch()
     {
-        pinchies[0].setPosition(0);
-        pinchies[1].setPosition(1);
+        pinchies[0].setPosition(1);
+        pinchies[1].setPosition(0);
+        pinchies[2].setPosition(0);
+        pinchies[3].setPosition(1);
     }
     public void notPinch()
     {
         pinchies[0].setPosition(.6);
         pinchies[1].setPosition(.4);
+        pinchies[2].setPosition(.6);
+        pinchies[3].setPosition(.4);
+    }
+    public void flip()
+    {
+        if (pinchies[4].getPosition() == 1){
+            pinchies[4].setPosition(0);
+        }
+        else if (pinchies[4].getPosition() == 0){
+            pinchies[4].setPosition(1);
+        }
     }
     public void openJaws(){
         jaws.setPosition(0);

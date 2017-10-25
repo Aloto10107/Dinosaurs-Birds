@@ -31,6 +31,7 @@ public class HoloTeleOp extends OpMode {
     public DriveBase drive;
     Orientation angles;
     public ConceptVuMarkIdentification vuforia;
+    private boolean preX;
 
     @Override
     public void init() {
@@ -112,6 +113,19 @@ public class HoloTeleOp extends OpMode {
         if (gamepad2.dpad_down)
         {
             drive.skilldown();
+        }
+        if (!gamepad2.x)
+        {
+            preX = true;
+        }
+        if (gamepad2.x)
+        {
+            preX = false;
+        }
+        if (gamepad2.x && !preX)
+        {
+            drive.flip();
+            preX = false;
         }
 
         //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
