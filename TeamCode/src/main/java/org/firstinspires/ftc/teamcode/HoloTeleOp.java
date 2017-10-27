@@ -39,6 +39,8 @@ public class HoloTeleOp extends OpMode {
         vuforia = new ConceptVuMarkIdentification();
         drive = new DriveBase(hardwareMap);
         drive.imuINIT();
+
+
     }
 
     @Override
@@ -66,28 +68,28 @@ public class HoloTeleOp extends OpMode {
         drive.setMotor_fr(leftY + leftX + rightX);
 
         if (gamepad1.dpad_up){
-            drive.setMotor_bl(-0.6);
-            drive.setMotor_fl(-0.6);
-            drive.setMotor_br(-0.6);
-            drive.setMotor_fr(-0.6);
+            drive.setMotor_bl(-0.8);
+            drive.setMotor_fl(-0.8);
+            drive.setMotor_br(-0.8);
+            drive.setMotor_fr(-0.8);
         }
         if (gamepad1.dpad_down){
-            drive.setMotor_bl(0.6);
-            drive.setMotor_fl(0.6);
-            drive.setMotor_br(0.6);
-            drive.setMotor_fr(0.6);
+            drive.setMotor_bl(0.8);
+            drive.setMotor_fl(0.8);
+            drive.setMotor_br(0.8);
+            drive.setMotor_fr(0.8);
         }
         if (gamepad1.dpad_right){
-            drive.setMotor_bl(-0.6);
-            drive.setMotor_fl(0.6);
-            drive.setMotor_br(0.6);
-            drive.setMotor_fr(-0.6);
+            drive.setMotor_bl(-0.8);
+            drive.setMotor_fl(0.8);
+            drive.setMotor_br(0.8);
+            drive.setMotor_fr(-0.8);
         }
         if (gamepad1.dpad_left){
-            drive.setMotor_bl(0.6);
-            drive.setMotor_fl(-0.6);
-            drive.setMotor_br(-0.6);
-            drive.setMotor_fr(0.6);
+            drive.setMotor_bl(0.8);
+            drive.setMotor_fl(-0.8);
+            drive.setMotor_br(-0.8);
+            drive.setMotor_fr(0.8);
         }
 
         drive.setLift(0.9*(gamepad2.left_stick_y));

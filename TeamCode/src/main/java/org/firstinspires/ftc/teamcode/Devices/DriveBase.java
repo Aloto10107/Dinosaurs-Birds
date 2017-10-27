@@ -167,8 +167,8 @@ public class DriveBase extends LinearOpMode{
     {
         pinchies[0].setPosition(.6);
         pinchies[1].setPosition(.4);
-        pinchies[2].setPosition(.6);
-        pinchies[3].setPosition(.4);
+        pinchies[2].setPosition(.4);
+        pinchies[3].setPosition(.6);
     }
     public void flip()
     {
