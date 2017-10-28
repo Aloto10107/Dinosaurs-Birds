@@ -39,6 +39,7 @@ public class DriveBase extends LinearOpMode{
     private Servo skill_crane;
     private Servo jaws;
     public Servo upanddown;
+    public Servo the_hand;
     BNO055IMU imu;
     private Orientation angles;
     private ColorSensor color;
@@ -76,6 +77,7 @@ public class DriveBase extends LinearOpMode{
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         skill_crane = hardwareMap.servo.get("skill_crane");
+        the_hand = hardwareMap.servo.get("the_hand");
         jaws = hardwareMap.servo.get("jaws");
         upanddown = hardwareMap.servo.get("upanddown");
         color = hardwareMap.get(ColorSensor.class, "color");
@@ -120,6 +122,7 @@ public class DriveBase extends LinearOpMode{
         setMotor_br(0);
         setMotor_fr(0);
      }
+
     public synchronized void setMotor_fl(double power)
     {
         double convertedPower = (power);
@@ -156,17 +159,25 @@ public class DriveBase extends LinearOpMode{
 
         sidearm.setPower(convertedPower);
     }
-    public void pinch()
+    public void redpinch()
     {
         pinchies[0].setPosition(1);
         pinchies[1].setPosition(0);
+
+    }
+    public void bluepinch()
+    {
         pinchies[2].setPosition(0);
         pinchies[3].setPosition(1);
     }
-    public void notPinch()
+    public void rednotPinch()
     {
         pinchies[0].setPosition(.6);
         pinchies[1].setPosition(.4);
+
+    }
+    public void bluenotPinch()
+    {
         pinchies[2].setPosition(.4);
         pinchies[3].setPosition(.6);
     }
@@ -186,16 +197,23 @@ public class DriveBase extends LinearOpMode{
         jaws.setPosition(1);
     }
     public void skillup(){
-/*        double newPos = skill_crane.getPosition() + 0.2;
-        skill_crane.setPosition(newPos);*/
+        double newPos = skill_crane.getPosition() + 0.2;
+        skill_crane.setPosition(newPos);
         skill_crane.setPosition(0);
     }
     public void skilldown(){
-/*        double newPos = skill_crane.getPosition() - 0.2;
-        skill_crane.setPosition(newPos);*/
+        double newPos = skill_crane.getPosition() - 0.2;
+        skill_crane.setPosition(newPos);
         skill_crane.setPosition(1);
-    }
 
+    }
+    public void grabrelic(){
+        the_hand.setPosition(0);
+    }
+    public void releaserelic()
+    {
+        the_hand.setPosition(0.5);
+    }
     public void imuINIT(){
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -206,9 +224,18 @@ public class DriveBase extends LinearOpMode{
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu.initialize(parameters);
     }
-    public float getHeading(){
-        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+    public float getHeading() {
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
+          }
+    public void sensordown()
+    {
+        upanddown.setPosition(1);
+
+    }
+    public void sensorup()
+    {
+        upanddown.setPosition(0);
     }
     public void gyroTurn(float degrees){
 
@@ -227,6 +254,7 @@ public class DriveBase extends LinearOpMode{
                 setMotor_fr(0);
                 break;
             }
+
         }
     }
     public void toDistance(float position){
@@ -247,6 +275,8 @@ public class DriveBase extends LinearOpMode{
                 break;
             }
         }
+
+
     }
 
     public int[] getColor() {

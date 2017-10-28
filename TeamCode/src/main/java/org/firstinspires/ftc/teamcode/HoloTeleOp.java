@@ -49,7 +49,7 @@ public class HoloTeleOp extends OpMode {
         double leftX = 0.8654*gamepad1.left_stick_x;
         double rightX = 0.5123*gamepad1.right_stick_x;
 
-        /*if (Math.abs(gamepad1.left_stick_y) < .1){
+        if (Math.abs(gamepad1.left_stick_y) < .1){
 
             leftY = 0;
         }
@@ -60,13 +60,13 @@ public class HoloTeleOp extends OpMode {
         if (Math.abs(gamepad1.right_stick_x) < .1){
 
             rightX = 0;
-        }*/
+        }
 
         drive.setMotor_bl(leftY + leftX - rightX);
         drive.setMotor_fl(leftY - leftX - rightX);
         drive.setMotor_br(leftY - leftX + rightX);
         drive.setMotor_fr(leftY + leftX + rightX);
-
+/*
         if (gamepad1.dpad_up){
             drive.setMotor_bl(-0.8);
             drive.setMotor_fl(-0.8);
@@ -91,15 +91,23 @@ public class HoloTeleOp extends OpMode {
             drive.setMotor_br(-0.8);
             drive.setMotor_fr(0.8);
         }
-
+*/
         drive.setLift(0.9*(gamepad2.left_stick_y));
         drive.setSidearm(0.9*(gamepad2.right_stick_x));
 
-        if (gamepad2.a){
-            drive.pinch();
+        if (gamepad2.right_bumper){
+            drive.redpinch();
         }
-        if (!gamepad2.a){
-            drive.notPinch();
+        if (!gamepad2.right_bumper){
+            drive.rednotPinch();
+        }
+        if(gamepad2.left_bumper)
+        {
+            drive.bluepinch();
+        }
+        if(!gamepad2.left_bumper)
+        {
+            drive.bluenotPinch();
         }
         if (gamepad2.b){
             drive.closeJaws();
@@ -129,7 +137,22 @@ public class HoloTeleOp extends OpMode {
             drive.flip();
             preX = false;
         }
-
+        if (gamepad2.y)
+        {
+            drive.grabrelic();
+        }
+        if (!gamepad2.y)
+        {
+            drive.releaserelic();
+        }
+        if (gamepad2.dpad_down)
+        {
+            drive.sensordown();
+        }
+        if (gamepad2.dpad_up)
+        {
+            drive.sensorup();
+        }
         //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
         telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " +  String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
     }
