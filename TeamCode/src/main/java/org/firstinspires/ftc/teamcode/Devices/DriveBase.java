@@ -28,9 +28,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import static com.sun.tools.javac.util.Constants.format;
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-public class DriveBase extends LinearOpMode{
+public class DriveBase {
     private DcMotor[] leftMotors;
     private DcMotor[] rightMotors;
     private DcMotor lift;
@@ -39,7 +41,6 @@ public class DriveBase extends LinearOpMode{
     private Servo skill_crane;
     private Servo jaws;
     public Servo upanddown;
-    public Servo the_hand;
     BNO055IMU imu;
     private Orientation angles;
     private ColorSensor color;
@@ -55,13 +56,13 @@ public class DriveBase extends LinearOpMode{
         leftMotors[1] = hardwareMap.dcMotor.get("motor_bl");
 
         leftMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
-        leftMotors[1].setDirection(DcMotorSimple.Direction.FORWARD);
+        leftMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
 
         rightMotors = new DcMotor[2];
         rightMotors[0] = hardwareMap.dcMotor.get("motor_fr");
         rightMotors[1] = hardwareMap.dcMotor.get("motor_br");
 
-        rightMotors[0].setDirection(DcMotorSimple.Direction.REVERSE);
+        rightMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
 
         pinchies = new Servo[5];
@@ -77,7 +78,6 @@ public class DriveBase extends LinearOpMode{
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         skill_crane = hardwareMap.servo.get("skill_crane");
-        the_hand = hardwareMap.servo.get("the_hand");
         jaws = hardwareMap.servo.get("jaws");
         upanddown = hardwareMap.servo.get("upanddown");
         color = hardwareMap.get(ColorSensor.class, "color");
@@ -111,7 +111,7 @@ public class DriveBase extends LinearOpMode{
         setLeft(leftPower);
         setRight(rightPower);
     }
-    public synchronized void turn(double power, long time){
+    public synchronized void turn(double power, long time) throws InterruptedException {
         setMotor_bl(-power);
         setMotor_fl(-power);
         setMotor_br(power);
@@ -191,28 +191,21 @@ public class DriveBase extends LinearOpMode{
         }
     }
     public void openJaws(){
-        jaws.setPosition(0);
-    }
-    public void closeJaws(){
         jaws.setPosition(1);
     }
+    public void closeJaws(){
+        jaws.setPosition(0);
+    }
     public void skillup(){
-        double newPos = skill_crane.getPosition() + 0.2;
-        skill_crane.setPosition(newPos);
-        skill_crane.setPosition(0);
+        //double newPos = skill_crane.getPosition() - 0.2;
+        //skill_crane.setPosition(newPos);
+        skill_crane.setPosition(1);
     }
     public void skilldown(){
-        double newPos = skill_crane.getPosition() - 0.2;
-        skill_crane.setPosition(newPos);
-        skill_crane.setPosition(1);
+        //double newPos = skill_crane.getPosition() + 0.2;
+        //skill_crane.setPosition(newPos);
+        skill_crane.setPosition(0);
 
-    }
-    public void grabrelic(){
-        the_hand.setPosition(0);
-    }
-    public void releaserelic()
-    {
-        the_hand.setPosition(0.5);
     }
     public void imuINIT(){
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -228,15 +221,6 @@ public class DriveBase extends LinearOpMode{
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
           }
-    public void sensordown()
-    {
-        upanddown.setPosition(1);
-
-    }
-    public void sensorup()
-    {
-        upanddown.setPosition(0);
-    }
     public void gyroTurn(float degrees){
 
         Gerror = getHeading() - degrees;
@@ -275,10 +259,7 @@ public class DriveBase extends LinearOpMode{
                 break;
             }
         }
-
-
     }
-
     public int[] getColor() {
 
         int red = color.red();
@@ -287,13 +268,12 @@ public class DriveBase extends LinearOpMode{
         int[] colors = new int[] {red, green, blue};
         return colors;
     }
-
-
-
-    @Override
-    public void runOpMode() throws InterruptedException {
-
+    public void cry()
+    {
+        return;
     }
+
+
 }
 
 

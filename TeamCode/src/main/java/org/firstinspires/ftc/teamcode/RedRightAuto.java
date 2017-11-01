@@ -24,13 +24,17 @@ import static com.sun.tools.javac.util.Constants.format;
  * Created by aloto10107 on 10/14/17.
  */
 
-public class BlueRightAuto extends LinearOpMode {
+public class RedRightAuto extends LinearOpMode {
 
     OpenGLMatrix lastLocation = null;
     VuforiaLocalizer vuforia;
     DriveBase drive;
     Orientation angles;
-
+    public double Yerror;
+    public double Xerror;
+    public double Xtarget;
+    double tY;
+    double tX;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -50,21 +54,40 @@ public class BlueRightAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        drive.upanddown.setPosition(1);
+        drive.upanddown.setPosition(0);
         drive.toDistance(0);
         wait(200);
-        if(drive.getColor()[2] >= 200)
+        if(drive.getColor()[0] >= 200)
         {
             drive.turn(.5,100);
         }
-        else
+        else if (drive.getColor()[2] >= 200)
         {
             drive.turn(-.5,100);
         }
-        drive.gyroTurn(0);
+        else
+        {
+            drive.cry();
+        }
+        drive.gyroTurn(90);
 
 
-
+        Yerror = tY - 0;
+        while (Math.abs(Yerror) >= 10) {
+            float Kp = (float) 0.01;
+            Yerror = tY - 0;
+            drive.setMotor_bl(Yerror * Kp);
+            drive.setMotor_fl(-Yerror * Kp);
+            drive.setMotor_br(-Yerror * Kp);
+            drive.setMotor_fr(Yerror * Kp);
+            if (Math.abs(Yerror) <= 4) {
+                drive.setMotor_bl(0);
+                drive.setMotor_fl(0);
+                drive.setMotor_br(0);
+                drive.setMotor_fr(0);
+                break;
+            }
+        }
 
 
 

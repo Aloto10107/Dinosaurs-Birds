@@ -110,7 +110,9 @@ public class ConceptRegisterOpModes
       // manager.register("Telemetry",              ConceptTelemetry.class);
       // manager.register("Vuforia Navigation",     ConceptVuforiaNavigation.class);
         manager.register("HoloTeleOp", HoloTeleOp.class);
-        manager.register("AutoBLueRigh", BlueRightAuto.class);
+        manager.register("AutoBLueRigh", RedRightAuto.class);
         manager.register("vuMark", ConceptVuMarkIdentification.class);
+        manager.register("BasicTeleop", basicTeleop.class);
+        manager.register("RedRightAuto", RedRightAuto.class);
     }
 }

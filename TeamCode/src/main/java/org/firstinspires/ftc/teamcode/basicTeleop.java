@@ -26,21 +26,15 @@ import org.firstinspires.ftc.teamcode.Devices.DriveBase;
  */
 
 @TeleOp(name = "HoloTeleOp", group = "Driver Controlled")
-public class HoloTeleOp extends OpMode {
+public class basicTeleop extends OpMode {
 
     public DriveBase drive;
-    Orientation angles;
-    //public ConceptVuMarkIdentification vuforia;
     private boolean preX;
 
     @Override
     public void init() {
 
-        //vuforia = new ConceptVuMarkIdentification();
         drive = new DriveBase(hardwareMap);
-        drive.imuINIT();
-
-
     }
 
     @Override
@@ -62,10 +56,12 @@ public class HoloTeleOp extends OpMode {
             rightX = 0;
         }
 
-        drive.setMotor_bl(leftY + leftX - rightX);
-        drive.setMotor_fl(leftY - leftX - rightX);
-        drive.setMotor_br(leftY - leftX + rightX);
-        drive.setMotor_fr(leftY + leftX + rightX);
+        drive.setMotor_bl(-leftY - leftX + rightX);
+        drive.setMotor_fl(-leftY + leftX + rightX);
+        drive.setMotor_br(-leftY + leftX - rightX);
+        drive.setMotor_fr(-leftY - leftX - rightX);
+
+
 /*
         if (gamepad1.dpad_up){
             drive.setMotor_bl(-0.8);
@@ -95,17 +91,19 @@ public class HoloTeleOp extends OpMode {
         drive.setLift(0.9*(gamepad2.left_stick_y));
         drive.setSidearm(0.9*(gamepad2.right_stick_x));
 
-        if (gamepad2.right_bumper){
+
+
+        if (gamepad2.right_trigger == 1){
             drive.redpinch();
         }
-        if (!gamepad2.right_bumper){
+        if (gamepad2.right_trigger != 1){
             drive.rednotPinch();
         }
-        if(gamepad2.left_bumper)
+        if(gamepad2.left_trigger == 1)
         {
             drive.bluepinch();
         }
-        if(!gamepad2.left_bumper)
+        if(gamepad2.left_trigger != 1)
         {
             drive.bluenotPinch();
         }
@@ -137,9 +135,24 @@ public class HoloTeleOp extends OpMode {
             drive.flip();
             preX = false;
         }
-
+        /*if(gamepad2.y)
+        {
+            drive.skillup();
+        }
+        if(!gamepad2.y)
+        {
+            drive.skilldown();
+        }*/
+        /*if (gamepad2.dpad_down)
+        {
+            drive.sensordown();
+        }
+        if (gamepad2.dpad_up)
+        {
+            drive.sensorup();
+        }*/
         //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
-        telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " +  String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
+        //telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " +  String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
     }
 
 }
