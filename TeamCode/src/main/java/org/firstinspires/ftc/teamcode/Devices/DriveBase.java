@@ -84,6 +84,7 @@ public class DriveBase {
         distance = hardwareMap.get(DistanceSensor.class, "color");
     }
     // Sets power of the two left motors
+
     public synchronized void setLeft(double power)
     {
         double convertedPower = (power);
@@ -231,7 +232,7 @@ public class DriveBase {
             setMotor_fl(-Gerror * Kp);
             setMotor_br(Gerror * Kp);
             setMotor_fr(Gerror * Kp);
-            if (Math.abs(Gerror) <= 4) {
+            if (Math.abs(Gerror) < 15) {
                 setMotor_bl(0);
                 setMotor_fl(0);
                 setMotor_br(0);
@@ -243,22 +244,25 @@ public class DriveBase {
     }
     public void toDistance(float position){
 
-        Derror = (float) (distance.getDistance(DistanceUnit.MM) - position);
-        while (Math.abs(Derror) >= 4) {
-            float Kp = (float) 0.01;
+
+
             Derror = (float) (distance.getDistance(DistanceUnit.MM) - position);
-            setMotor_bl(-Derror * Kp);
-            setMotor_fl(-Derror * Kp);
-            setMotor_br(Derror * Kp);
-            setMotor_fr(Derror * Kp);
-            if (Math.abs(Derror) <= 4) {
-                setMotor_bl(0);
-                setMotor_fl(0);
-                setMotor_br(0);
-                setMotor_fr(0);
-                break;
+            while (Math.abs(Derror) >= 4) {
+                float Kp = (float) 0.005;
+                Derror = (float) (distance.getDistance(DistanceUnit.MM) - position);
+                setMotor_bl(Derror * Kp);
+                setMotor_fl(Derror * Kp);
+                setMotor_br(-Derror * Kp);
+                setMotor_fr(-Derror * Kp);
+                if (Math.abs(Derror) <= 4) {
+                    setMotor_bl(0);
+                    setMotor_fl(0);
+                    setMotor_br(0);
+                    setMotor_fr(0);
+                    break;
+                }
             }
-        }
+
     }
     public int[] getColor() {
 
@@ -270,7 +274,7 @@ public class DriveBase {
     }
     public void cry()
     {
-        return;
+        float tears = 1000000000;
     }
 
 
