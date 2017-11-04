@@ -24,7 +24,7 @@ import static com.sun.tools.javac.util.Constants.format;
  * Created by aloto10107 on 10/14/17.
  */
 
-public class RedRightAuto extends LinearOpMode {
+public class RedLeftAuto extends LinearOpMode {
 
     OpenGLMatrix lastLocation = null;
     VuforiaLocalizer vuforia;
@@ -69,31 +69,29 @@ public class RedRightAuto extends LinearOpMode {
         }
         Thread.sleep(1000);
         drive.upanddown.setPosition(1);
-        Thread.sleep(1000);
-        drive.gyroTurn(-90);
+        drive.gyroTurn(90);
 
-//        Xerror = tX - 0;
-//        while (Math.abs(Xerror) >= 10) {
-//            float Kp = (float) 0.01;
-//            Xerror = tX - 0;
-//            drive.setMotor_bl(Xerror * Kp);
-//            drive.setMotor_fl(-Xerror * Kp);
-//            drive.setMotor_br(-Xerror * Kp);
-//            drive.setMotor_fr(Xerror * Kp);
-//            if (Math.abs(Xerror) <= 4) {
-//                drive.setMotor_bl(0);
-//                drive.setMotor_fl(0);
-//                drive.setMotor_br(0);
-//                drive.setMotor_fr(0);
-//                break;
-//            }
-//        }
+        Yerror = tY - 0;
+        while (Math.abs(Yerror) >= 10) {
+            float Kp = (float) 0.01;
+            Yerror = tY - 0;
+            drive.setMotor_bl(Yerror * Kp);
+            drive.setMotor_fl(-Yerror * Kp);
+            drive.setMotor_br(-Yerror * Kp);
+            drive.setMotor_fr(Yerror * Kp);
+            if (Math.abs(Yerror) <= 4) {
+                drive.setMotor_bl(0);
+                drive.setMotor_fl(0);
+                drive.setMotor_br(0);
+                drive.setMotor_fr(0);
+                break;
+            }
+        }
 
 
         relicTrackables.activate();
 
-
-           while (opModeIsActive()) {
+        while (opModeIsActive()) {
             /**
              * See if any of the instances of {@link relicTemplate} are currently visible.
              * {@link RelicRecoveryVuMark} is an enum which can have the following values:
@@ -129,7 +127,6 @@ public class RedRightAuto extends LinearOpMode {
                     double rX = rot.firstAngle;
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
-
                 }
             }
             else {
@@ -142,12 +139,8 @@ public class RedRightAuto extends LinearOpMode {
             telemetry.addData("green", drive.getColor()[1]);
             telemetry.addData("blue", drive.getColor()[2]);
             telemetry.addData("Distance", drive.Derror);
-            telemetry.addData("Z:", angles.firstAngle);
-            telemetry.addData("Y:", angles.secondAngle);
-            telemetry.addData("X:", angles.thirdAngle);
 
-
-               telemetry.update();
+            telemetry.update();
         }
     }
 }

@@ -39,6 +39,7 @@ public class HoloTeleOp extends OpMode {
         //vuforia = new ConceptVuMarkIdentification();
         drive = new DriveBase(hardwareMap);
         drive.imuINIT();
+        drive.upanddown.setPosition(1);
 
 
     }

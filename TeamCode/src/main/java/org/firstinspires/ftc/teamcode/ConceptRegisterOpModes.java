@@ -114,5 +114,8 @@ public class ConceptRegisterOpModes
         manager.register("vuMark", ConceptVuMarkIdentification.class);
         manager.register("BasicTeleop", basicTeleop.class);
         manager.register("RedRightAuto", RedRightAuto.class);
+        manager.register("RedLeftAuto", RedLeftAuto.class);
+        manager.register("BlueRightAuto", BlueRightAuto.class);
+        manager.register("BlueLeftAuto", BlueLeftAuto.class);
     }
 }

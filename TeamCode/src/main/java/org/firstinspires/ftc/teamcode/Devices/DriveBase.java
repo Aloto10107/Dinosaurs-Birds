@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Devices;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.lynx.LynxI2cColorRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -80,8 +81,8 @@ public class DriveBase {
         skill_crane = hardwareMap.servo.get("skill_crane");
         jaws = hardwareMap.servo.get("jaws");
         upanddown = hardwareMap.servo.get("upanddown");
-        color = hardwareMap.get(ColorSensor.class, "color");
-        distance = hardwareMap.get(DistanceSensor.class, "color");
+        color = hardwareMap.colorSensor.get("color");
+        //distance = hardwareMap.get(DistanceSensor.class, "color");
     }
     // Sets power of the two left motors
 
@@ -200,7 +201,7 @@ public class DriveBase {
     public void skillup(){
         //double newPos = skill_crane.getPosition() - 0.2;
         //skill_crane.setPosition(newPos);
-        skill_crane.setPosition(1);
+        skill_crane.setPosition(.6);
     }
     public void skilldown(){
         //double newPos = skill_crane.getPosition() + 0.2;
@@ -220,19 +221,19 @@ public class DriveBase {
     }
     public float getHeading() {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        return angles.firstAngle;
+        return angles.secondAngle;
           }
     public void gyroTurn(float degrees){
 
         Gerror = getHeading() - degrees;
         while (Math.abs(Gerror) >= 4) {
-            float Kp = (float) 0.01;
+            float Kp = (float) 0.003;
             Gerror = getHeading() - degrees;
             setMotor_bl(-Gerror * Kp);
             setMotor_fl(-Gerror * Kp);
             setMotor_br(Gerror * Kp);
             setMotor_fr(Gerror * Kp);
-            if (Math.abs(Gerror) < 15) {
+            if (Math.abs(Gerror) < 5) {
                 setMotor_bl(0);
                 setMotor_fl(0);
                 setMotor_br(0);
@@ -244,11 +245,9 @@ public class DriveBase {
     }
     public void toDistance(float position){
 
-
-
             Derror = (float) (distance.getDistance(DistanceUnit.MM) - position);
             while (Math.abs(Derror) >= 4) {
-                float Kp = (float) 0.005;
+                float Kp = (float) 0.0001;
                 Derror = (float) (distance.getDistance(DistanceUnit.MM) - position);
                 setMotor_bl(Derror * Kp);
                 setMotor_fl(Derror * Kp);
@@ -275,6 +274,7 @@ public class DriveBase {
     public void cry()
     {
         float tears = 1000000000;
+        return;
     }
 
 

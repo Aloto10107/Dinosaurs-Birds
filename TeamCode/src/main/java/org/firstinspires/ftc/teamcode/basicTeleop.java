@@ -35,6 +35,7 @@ public class basicTeleop extends OpMode {
     public void init() {
 
         drive = new DriveBase(hardwareMap);
+        drive.upanddown.setPosition(1);
     }
 
     @Override
@@ -43,15 +44,15 @@ public class basicTeleop extends OpMode {
         double leftX = gamepad1.left_stick_x;
         double rightX = gamepad1.right_stick_x;
 
-        if (Math.abs(gamepad1.left_stick_y) < .1){
+        if (Math.abs(gamepad1.left_stick_y) < .2){
 
             leftY = 0;
         }
-        if (Math.abs(gamepad1.left_stick_x) < .1){
+        if (Math.abs(gamepad1.left_stick_x) < .2){
 
             leftX = 0;
         }
-        if (Math.abs(gamepad1.right_stick_x) < .1){
+        if (Math.abs(gamepad1.right_stick_x) < .2){
 
             rightX = 0;
         }
@@ -152,7 +153,7 @@ public class basicTeleop extends OpMode {
             drive.sensorup();
         }*/
         //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
-        //telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " +  String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
+        telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " +  String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
     }
 
 }
