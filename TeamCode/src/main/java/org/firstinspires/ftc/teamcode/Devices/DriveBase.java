@@ -193,7 +193,7 @@ public class DriveBase {
         }
     }
     public void openJaws(){
-        jaws.setPosition(.210);
+        jaws.setPosition(.5);
     }
     public void closeJaws(){
         jaws.setPosition(.9);
