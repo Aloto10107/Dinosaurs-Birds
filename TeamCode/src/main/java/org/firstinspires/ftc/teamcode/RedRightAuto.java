@@ -59,11 +59,11 @@ public class RedRightAuto extends LinearOpMode {
         drive.upanddown.setPosition(0);
         //drive.toDistance(0);
         Thread.sleep(2500);
-        if((drive.getColor()[0] - drive.getColor()[2]) >= 40)
+        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .5)
         {
             drive.turn(.5,100);
         }
-        else if ((drive.getColor()[0] - drive.getColor()[2]) <= -40)
+        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= -.5)
         {
             drive.turn(-.5,100);
         }
@@ -145,6 +145,7 @@ public class RedRightAuto extends LinearOpMode {
             telemetry.addData("Z:", angles.firstAngle);
             telemetry.addData("Y:", angles.secondAngle);
             telemetry.addData("X:", angles.thirdAngle);
+            telemetry.addData("NormalColor", (drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0]);
 
 
                telemetry.update();

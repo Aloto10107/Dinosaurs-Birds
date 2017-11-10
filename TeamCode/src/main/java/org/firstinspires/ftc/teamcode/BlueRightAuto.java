@@ -59,11 +59,11 @@ public class BlueRightAuto extends LinearOpMode {
         drive.upanddown.setPosition(0);
         //drive.toDistance(0);
         Thread.sleep(2500);
-        if((drive.getColor()[0] - drive.getColor()[2]) >= 40)
+        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[2] >= .5)
         {
             drive.turn(-.5,100);
         }
-        else if ((drive.getColor()[0] - drive.getColor()[2]) >= -40)
+        else if ((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[2] >= -.5)
         {
             drive.turn(.5,100);
         }

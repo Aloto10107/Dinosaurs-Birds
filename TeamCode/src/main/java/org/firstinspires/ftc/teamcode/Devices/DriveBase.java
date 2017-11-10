@@ -193,20 +193,20 @@ public class DriveBase {
         }
     }
     public void openJaws(){
-        jaws.setPosition(1);
+        jaws.setPosition(.210);
     }
     public void closeJaws(){
-        jaws.setPosition(0);
+        jaws.setPosition(.9);
     }
     public void skillup(){
         //double newPos = skill_crane.getPosition() - 0.2;
         //skill_crane.setPosition(newPos);
-        skill_crane.setPosition(.6);
+        skill_crane.setPosition(0);
     }
     public void skilldown(){
         //double newPos = skill_crane.getPosition() + 0.2;
         //skill_crane.setPosition(newPos);
-        skill_crane.setPosition(0);
+        skill_crane.setPosition(.6);
 
     }
     public void imuINIT(){
@@ -221,7 +221,7 @@ public class DriveBase {
     }
     public float getHeading() {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        return angles.secondAngle;
+        return angles.firstAngle;
           }
     public void gyroTurn(float degrees){
 
