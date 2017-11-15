@@ -155,7 +155,6 @@ public class basicTeleop extends OpMode {
         //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
         telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " +  String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
         telemetry.addData("NormalColor", (drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0]);
-
     }
 
 }

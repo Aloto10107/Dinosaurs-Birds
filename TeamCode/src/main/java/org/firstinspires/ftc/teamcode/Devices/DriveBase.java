@@ -48,7 +48,7 @@ public class DriveBase {
     public DistanceSensor distance;
     public float Gerror;
     public float Derror;
-
+    public double SpinPos = 0;
     VuforiaLocalizer vuforia;
 
     public DriveBase(HardwareMap hardwareMap) {
@@ -185,28 +185,30 @@ public class DriveBase {
     }
     public void flip()
     {
-        if (pinchies[4].getPosition() == 1){
-            pinchies[4].setPosition(0);
+        if (SpinPos == .89){
+            pinchies[4].setPosition(.2);
+            SpinPos = 0;
         }
-        else if (pinchies[4].getPosition() == 0){
-            pinchies[4].setPosition(1);
+        else if (SpinPos == 0){
+            pinchies[4].setPosition(.8);
+            SpinPos = .89;
         }
     }
     public void openJaws(){
-        jaws.setPosition(.5);
+        jaws.setPosition(0);
     }
     public void closeJaws(){
-        jaws.setPosition(.9);
+        jaws.setPosition(1);
     }
     public void skillup(){
         //double newPos = skill_crane.getPosition() - 0.2;
         //skill_crane.setPosition(newPos);
-        skill_crane.setPosition(0);
+        skill_crane.setPosition(.6);
     }
     public void skilldown(){
         //double newPos = skill_crane.getPosition() + 0.2;
         //skill_crane.setPosition(newPos);
-        skill_crane.setPosition(.6);
+        skill_crane.setPosition(0);
 
     }
     public void imuINIT(){
@@ -220,14 +222,15 @@ public class DriveBase {
         imu.initialize(parameters);
     }
     public float getHeading() {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //PLZ dont touch
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
           }
     public void gyroTurn(float degrees){
 
         Gerror = getHeading() - degrees;
+        float Kp = (float) 0.003;
         while (Math.abs(Gerror) >= 4) {
-            float Kp = (float) 0.003;
             Gerror = getHeading() - degrees;
             setMotor_bl(-Gerror * Kp);
             setMotor_fl(-Gerror * Kp);
@@ -240,8 +243,9 @@ public class DriveBase {
                 setMotor_fr(0);
                 break;
             }
-
+            break;
         }
+        return;
     }
     public void toDistance(float position){
 

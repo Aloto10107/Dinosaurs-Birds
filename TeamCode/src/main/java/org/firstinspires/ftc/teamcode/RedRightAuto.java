@@ -70,7 +70,7 @@ public class RedRightAuto extends LinearOpMode {
         Thread.sleep(1000);
         drive.upanddown.setPosition(1);
         Thread.sleep(1000);
-        drive.gyroTurn(-90);
+        drive.gyroTurn(90);
 
 //        Xerror = tX - 0;
 //        while (Math.abs(Xerror) >= 10) {
