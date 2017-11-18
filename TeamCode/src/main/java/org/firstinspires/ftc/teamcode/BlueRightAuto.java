@@ -33,16 +33,19 @@ public class BlueRightAuto extends LinearOpMode {
     public double Yerror;
     public double Xerror;
     public double Xtarget;
-    double tY;
-    double tX;
-    double tZ;
+    double tY = 0;
+    double tX = 0;
+    double tZ = 0;
+    double rX = 0;
+    double rY = 0;
+    double rZ = 0;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         drive = new DriveBase(hardwareMap);
-        drive.imuINIT();
+//        drive.imuINIT();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -59,11 +62,11 @@ public class BlueRightAuto extends LinearOpMode {
         drive.upanddown.setPosition(0);
         //drive.toDistance(0);
         Thread.sleep(2500);
-        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[2] >= .5)
+        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[2] >= .6)
         {
             drive.turn(-.5,100);
         }
-        else if ((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[2] >= -.5)
+        else if ((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[2] <= 0)
         {
             drive.turn(.5,100);
         }
@@ -126,9 +129,9 @@ public class BlueRightAuto extends LinearOpMode {
                     tZ = trans.get(2);
 
                     // Extract the rotational components of the target relative to the robot
-                    double rX = rot.firstAngle;
-                    double rY = rot.secondAngle;
-                    double rZ = rot.thirdAngle;
+                    rX = rot.firstAngle;
+                    rY = rot.secondAngle;
+                    rZ = rot.thirdAngle;
 
                 }
             }
@@ -136,7 +139,6 @@ public class BlueRightAuto extends LinearOpMode {
                 telemetry.addData("VuMark", "not visible");
             }
 
-            telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
             telemetry.addData("error", String.valueOf(drive.Gerror));
             telemetry.addData("red", drive.getColor()[0]);
             telemetry.addData("green", drive.getColor()[1]);

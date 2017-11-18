@@ -203,7 +203,7 @@ public class DriveBase {
     public void skillup(){
         //double newPos = skill_crane.getPosition() - 0.2;
         //skill_crane.setPosition(newPos);
-        skill_crane.setPosition(.6);
+        skill_crane.setPosition(.8);
     }
     public void skilldown(){
         //double newPos = skill_crane.getPosition() + 0.2;
@@ -225,27 +225,40 @@ public class DriveBase {
         //PLZ dont touch
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
-          }
+        }
     public void gyroTurn(float degrees){
 
-        Gerror = getHeading() - degrees;
-        float Kp = (float) 0.003;
-        while (Math.abs(Gerror) >= 4) {
-            Gerror = getHeading() - degrees;
+        float Kp = (float) 0.005;
+            Gerror = degrees - getHeading() ;
             setMotor_bl(-Gerror * Kp);
             setMotor_fl(-Gerror * Kp);
             setMotor_br(Gerror * Kp);
             setMotor_fr(Gerror * Kp);
-            if (Math.abs(Gerror) < 5) {
+            if (Gerror <= 5) {
                 setMotor_bl(0);
-                setMotor_fl(0);
                 setMotor_br(0);
                 setMotor_fr(0);
-                break;
+                setMotor_fl(0);
             }
-            break;
-        }
-        return;
+
+//        Gerror = getHeading() - degrees;
+//        float Kp = (float) 0.003;
+//        while (Math.abs(Gerror) >= 4) {
+//            Gerror = getHeading() - degrees;
+//            setMotor_bl(-Gerror * Kp);
+//            setMotor_fl(-Gerror * Kp);
+//            setMotor_br(Gerror * Kp);
+//            setMotor_fr(Gerror * Kp);
+//            if (Math.abs(Gerror) < 5) {
+//                setMotor_bl(0);
+//                setMotor_fl(0);
+//                setMotor_br(0);
+//                setMotor_fr(0);
+//                break;
+//            }
+//            break;
+//        }
+//        return;
     }
     public void toDistance(float position){
 
