@@ -49,6 +49,7 @@ public class DriveBase {
     public float Gerror;
     public float Derror;
     public double SpinPos = 0;
+    public float tears = 0;
     VuforiaLocalizer vuforia;
 
     public DriveBase(HardwareMap hardwareMap) {
@@ -229,17 +230,17 @@ public class DriveBase {
     public void gyroTurn(float degrees){
 
         float Kp = (float) 0.005;
-            Gerror = degrees - getHeading() ;
-            setMotor_bl(-Gerror * Kp);
-            setMotor_fl(-Gerror * Kp);
-            setMotor_br(Gerror * Kp);
-            setMotor_fr(Gerror * Kp);
-            if (Gerror <= 5) {
-                setMotor_bl(0);
-                setMotor_br(0);
-                setMotor_fr(0);
-                setMotor_fl(0);
-            }
+        Gerror = degrees - getHeading() ;
+        setMotor_bl(-Gerror * Kp);
+        setMotor_fl(-Gerror * Kp);
+        setMotor_br(Gerror * Kp);
+        setMotor_fr(Gerror * Kp);
+        if (Gerror <= 5) {
+            setMotor_bl(0);
+            setMotor_br(0);
+            setMotor_fr(0);
+            setMotor_fl(0);
+        }
 
 //        Gerror = getHeading() - degrees;
 //        float Kp = (float) 0.003;
@@ -290,8 +291,7 @@ public class DriveBase {
     }
     public void cry()
     {
-        float tears = 1000000000;
-        return;
+        tears++;
     }
 
 
