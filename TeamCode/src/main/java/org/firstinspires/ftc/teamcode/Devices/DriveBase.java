@@ -28,8 +28,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import static com.sun.tools.javac.jvm.ByteCodes.error;
 import static com.sun.tools.javac.util.Constants.format;
 import static java.lang.Thread.sleep;
+
+import java.lang.Math;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
@@ -50,6 +53,10 @@ public class DriveBase {
     public float Derror;
     public double SpinPos = 0;
     public float tears = 0;
+    float deltaTime = 0;
+    float preTime = 0;
+    float currentTime = 0;
+    float PDout = 0;
     VuforiaLocalizer vuforia;
 
     public DriveBase(HardwareMap hardwareMap) {
@@ -230,36 +237,29 @@ public class DriveBase {
     public void gyroTurn(float degrees){
 
         float Kp = (float) 0.005;
-        Gerror = degrees - getHeading() ;
-        setMotor_bl(-Gerror * Kp);
-        setMotor_fl(-Gerror * Kp);
-        setMotor_br(Gerror * Kp);
-        setMotor_fr(Gerror * Kp);
-        if (Gerror <= 5) {
-            setMotor_bl(0);
-            setMotor_br(0);
-            setMotor_fr(0);
-            setMotor_fl(0);
+        float Kd = (float) 0.0001;
+        while (true){
+            deltaTime = System.nanoTime() - preTime;
+            Gerror = degrees - getHeading();
+            PDout = (Kp * Gerror) + (Kd * (Gerror/deltaTime));
+            setMotor_bl(-PDout);
+            setMotor_fl(-PDout);
+            setMotor_br(PDout);
+            setMotor_fr(PDout);
+            preTime = currentTime;
+            if (Gerror <= 5) {
+                setMotor_bl(0);
+                setMotor_br(0);
+                setMotor_fr(0);
+                setMotor_fl(0);
+                break;
+            }
         }
+    }
 
-//        Gerror = getHeading() - degrees;
-//        float Kp = (float) 0.003;
-//        while (Math.abs(Gerror) >= 4) {
-//            Gerror = getHeading() - degrees;
-//            setMotor_bl(-Gerror * Kp);
-//            setMotor_fl(-Gerror * Kp);
-//            setMotor_br(Gerror * Kp);
-//            setMotor_fr(Gerror * Kp);
-//            if (Math.abs(Gerror) < 5) {
-//                setMotor_bl(0);
-//                setMotor_fl(0);
-//                setMotor_br(0);
-//                setMotor_fr(0);
-//                break;
-//            }
-//            break;
-//        }
-//        return;
+    public void PDTurn(float degrees) {
+
+
     }
     public void toDistance(float position){
 

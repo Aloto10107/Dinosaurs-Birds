@@ -44,7 +44,7 @@ public class RedLeftAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         drive = new DriveBase(hardwareMap);
-//        drive.imuINIT();
+        drive.imuINIT();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -58,37 +58,43 @@ public class RedLeftAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        drive.upanddown.setPosition(0);
-        //drive.toDistance(0);
-        Thread.sleep(2500);
-        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .6)
-        {
-            drive.turn(.5,100);
-        }
-        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0)
-        {
-            drive.turn(-.5,100);
-        }
-        Thread.sleep(1000);
-        drive.upanddown.setPosition(1);
+        drive.gyroTurn(45);
+        sleep(5000);
         drive.gyroTurn(90);
+        sleep(5000);
+        drive.gyroTurn(180);
 
-        Yerror = tY - 0;
-        while (Math.abs(Yerror) >= 10) {
-            float Kp = (float) 0.01;
-            Yerror = tY - 0;
-            drive.setMotor_bl(Yerror * Kp);
-            drive.setMotor_fl(-Yerror * Kp);
-            drive.setMotor_br(-Yerror * Kp);
-            drive.setMotor_fr(Yerror * Kp);
-            if (Math.abs(Yerror) <= 4) {
-                drive.setMotor_bl(0);
-                drive.setMotor_fl(0);
-                drive.setMotor_br(0);
-                drive.setMotor_fr(0);
-                break;
-            }
-        }
+//        drive.upanddown.setPosition(0);
+//        //drive.toDistance(0);
+//        Thread.sleep(2500);
+//        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .6)
+//        {
+//            drive.turn(.5,100);
+//        }
+//        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0)
+//        {
+//            drive.turn(-.5,100);
+//        }
+//        Thread.sleep(1000);
+//        drive.upanddown.setPosition(1);
+//        drive.gyroTurn(90);
+//
+//        Yerror = tY - 0;
+//        while (Math.abs(Yerror) >= 10) {
+//            float Kp = (float) 0.01;
+//            Yerror = tY - 0;
+//            drive.setMotor_bl(Yerror * Kp);
+//            drive.setMotor_fl(-Yerror * Kp);
+//            drive.setMotor_br(-Yerror * Kp);
+//            drive.setMotor_fr(Yerror * Kp);
+//            if (Math.abs(Yerror) <= 4) {
+//                drive.setMotor_bl(0);
+//                drive.setMotor_fl(0);
+//                drive.setMotor_br(0);
+//                drive.setMotor_fr(0);
+//                break;
+//            }
+//        }
 
 
         relicTrackables.activate();

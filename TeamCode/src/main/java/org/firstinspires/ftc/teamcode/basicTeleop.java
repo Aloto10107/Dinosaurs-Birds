@@ -42,7 +42,7 @@ public class basicTeleop extends OpMode {
     public void loop() {
         double leftY = gamepad1.left_stick_y;
         double leftX = gamepad1.left_stick_x;
-        double rightX = gamepad1.right_stick_x;
+        double rightX = .7*(gamepad1.right_stick_x);
 
         if (Math.abs(gamepad1.left_stick_y) < .2){
 
@@ -64,30 +64,30 @@ public class basicTeleop extends OpMode {
 
 
 
-//        if (gamepad1.dpad_up){
-//            drive.setMotor_bl(0.8);
-//            drive.setMotor_fl(0.8);
-//            drive.setMotor_br(0.8);
-//            drive.setMotor_fr(0.8);
-//        }
-//        if (gamepad1.dpad_down){
-//            drive.setMotor_bl(-0.8);
-//            drive.setMotor_fl(-0.8);
-//            drive.setMotor_br(-0.8);
-//            drive.setMotor_fr(-0.8);
-//        }
-//        if (gamepad1.dpad_right){
-//            drive.setMotor_bl(-0.8);
-//            drive.setMotor_fl(0.8);
-//            drive.setMotor_br(0.8);
-//            drive.setMotor_fr(-0.8);
-//        }
-//        if (gamepad1.dpad_left){
-//            drive.setMotor_bl(0.8);
-//            drive.setMotor_fl(-0.8);
-//            drive.setMotor_br(-0.8);
-//            drive.setMotor_fr(0.8);
-//        }
+        if (gamepad1.dpad_up){
+            drive.setMotor_bl(0.8);
+            drive.setMotor_fl(0.8);
+            drive.setMotor_br(0.8);
+            drive.setMotor_fr(0.8);
+        }
+        if (gamepad1.dpad_down){
+            drive.setMotor_bl(-0.8);
+            drive.setMotor_fl(-0.8);
+            drive.setMotor_br(-0.8);
+            drive.setMotor_fr(-0.8);
+        }
+        if (gamepad1.dpad_right){
+            drive.setMotor_bl(-0.8);
+            drive.setMotor_fl(0.8);
+            drive.setMotor_br(0.8);
+            drive.setMotor_fr(-0.8);
+        }
+        if (gamepad1.dpad_left){
+            drive.setMotor_bl(0.8);
+            drive.setMotor_fl(-0.8);
+            drive.setMotor_br(-0.8);
+            drive.setMotor_fr(0.8);
+        }
 
         drive.setLift(0.9*(gamepad2.left_stick_y));
         drive.setSidearm(0.9*(gamepad2.right_stick_x));

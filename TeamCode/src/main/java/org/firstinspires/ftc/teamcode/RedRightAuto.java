@@ -19,7 +19,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Devices.DriveBase;
 
 import static com.sun.tools.javac.util.Constants.format;
-
 /**
  * Created by aloto10107 on 10/14/17.
  */
@@ -85,8 +84,8 @@ public class RedRightAuto extends LinearOpMode {
         }
         drive.upanddown.setPosition(1);
         Thread.sleep(1000);
-//        drive.turn(-.5,500);
-//        drive.gyroTurn(0); //get fukd all of yoo try to find what i messed up
+        drive.turn(-.5,500);
+        drive.gyroTurn(0); //get fukd all of yoo try to find what i messed up
         drive.setBoth(-.25,-.25);
         sleep(2600);
         drive.setBoth(0,0);
@@ -96,10 +95,10 @@ public class RedRightAuto extends LinearOpMode {
             telemetry.addData("Tears", drive.tears);
             telemetry.update();
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN )
+            if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 10000)
             {
-                if(vuMark == RelicRecoveryVuMark.RIGHT){
-                    Distance = 0;
+                if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
+                    Distance = 500;
                 }
                 if(vuMark == RelicRecoveryVuMark.CENTER){
                     Distance = 1000;
