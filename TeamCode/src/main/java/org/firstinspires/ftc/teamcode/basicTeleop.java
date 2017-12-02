@@ -102,6 +102,12 @@ public class basicTeleop extends OpMode {
             drive.rednotPinch();
             drive.bluenotPinch();
         }
+        if (gamepad2.left_trigger == 1){
+            drive.NoBodGot();
+        }
+        if (gamepad2.left_trigger != 1){
+            drive.BodGot();
+        }
 //        if(gamepad2.left_trigger == 1)
 //        {
 //            drive.bluepinch();

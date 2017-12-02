@@ -17,12 +17,15 @@ import com.sun.tools.javac.tree.DCTree;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
@@ -42,11 +45,15 @@ public class DriveBase {
     private DcMotor lift;
     private DcMotor sidearm;
     private Servo[] pinchies;
+    private DcMotor[] BodGot;
     private Servo skill_crane;
     private Servo jaws;
     public Servo upanddown;
     BNO055IMU imu;
     private Orientation angles;
+    private Acceleration acceleration;
+    private Position position = null;
+    private Velocity velocity = null;
     private ColorSensor color;
     public DistanceSensor distance;
     public float Gerror;
@@ -74,12 +81,15 @@ public class DriveBase {
         rightMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
 
-        pinchies = new Servo[5];
+        pinchies = new Servo[4];
         pinchies[0] = hardwareMap.servo.get("top_right");
         pinchies[1] = hardwareMap.servo.get("top_left");
         pinchies[2] = hardwareMap.servo.get("bottom_right");
         pinchies[3] = hardwareMap.servo.get("bottom_left");
-        pinchies[4] = hardwareMap.servo.get("center");
+
+        BodGot = new DcMotor[2];
+        BodGot[0] = hardwareMap.dcMotor.get("InLeft");
+        BodGot[1] = hardwareMap.dcMotor.get("InRight");
 
         lift = hardwareMap.dcMotor.get("PinchArm");
         sidearm = hardwareMap.dcMotor.get("SideArm");
@@ -202,6 +212,14 @@ public class DriveBase {
             SpinPos = .89;
         }
     }
+    public void BodGot(){
+        BodGot[0].setPower(1);
+        BodGot[1].setPower(1);
+    }
+    public void NoBodGot(){
+        BodGot[0].setPower(0);
+        BodGot[1].setPower(0);
+    }
     public void openJaws(){
         jaws.setPosition(0);
     }
@@ -234,6 +252,13 @@ public class DriveBase {
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
         }
+    public double[] getAcceleration(){
+
+        acceleration = imu.getAcceleration();
+        double[] accel = new double[] {acceleration.xAccel,acceleration.yAccel,acceleration.zAccel};
+
+        return accel;
+    }
     public void gyroTurn(float degrees){
 
         float Kp = (float) 0.005;

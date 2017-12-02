@@ -140,7 +140,9 @@ public class HoloTeleOp extends OpMode {
         }
 
         telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
+        telemetry.addData("Acceleration", drive.getAcceleration()[0]);
         telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " +  String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
+
     }
 
 }
