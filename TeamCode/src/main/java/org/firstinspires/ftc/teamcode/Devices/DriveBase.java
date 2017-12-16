@@ -57,12 +57,14 @@ public class DriveBase {
     private ColorSensor color;
     public DistanceSensor distance;
     public float Gerror;
+    public float deltaError;
     public float Derror;
+    public float currentTime;
+    public float preError;
     public double SpinPos = 0;
     public float tears = 0;
     float deltaTime = 0;
     float preTime = 0;
-    float currentTime = 0;
     float PDout = 0;
     VuforiaLocalizer vuforia;
 
@@ -90,6 +92,8 @@ public class DriveBase {
         BodGot = new DcMotor[2];
         BodGot[0] = hardwareMap.dcMotor.get("InLeft");
         BodGot[1] = hardwareMap.dcMotor.get("InRight");
+
+        BodGot[0].setDirection(DcMotorSimple.Direction.REVERSE);
 
         lift = hardwareMap.dcMotor.get("PinchArm");
         sidearm = hardwareMap.dcMotor.get("SideArm");
@@ -259,9 +263,34 @@ public class DriveBase {
 
         return accel;
     }
+    public void gyroBadTurn(float degrees){
+
+        float Kp = (float) 0.1;
+        float Kd = (float) 0.0;
+        while (true){
+            deltaTime = System.nanoTime() - preTime;
+            Gerror = degrees - getHeading();
+            deltaError = preError - Gerror;
+            PDout = (Kp * Gerror) + (Kd * (deltaError/deltaTime));
+            preTime = System.nanoTime();
+            preError = Gerror;
+            setMotor_bl(-PDout);
+            setMotor_fl(-PDout);
+            setMotor_br(PDout);
+            setMotor_fr(PDout);
+//            if (Gerror <= 4) {
+//                setMotor_bl(0);
+//                setMotor_br(0);
+//                setMotor_fr(0);
+//                setMotor_fl(0);
+//                break;
+//            }
+        }
+    }
+
     public void gyroTurn(float degrees){
 
-        float Kp = (float) 0.005;
+        float Kp = (float) 0.008;
         float Kd = (float) 0.0001;
         while (true){
             deltaTime = System.nanoTime() - preTime;
@@ -273,19 +302,15 @@ public class DriveBase {
             setMotor_fr(PDout);
             preTime = currentTime;
             if (Gerror <= 5) {
-                setMotor_bl(0);
-                setMotor_br(0);
-                setMotor_fr(0);
-                setMotor_fl(0);
-                break;
+                    setMotor_bl(0);
+                    setMotor_br(0);
+                    setMotor_fr(0);
+                    setMotor_fl(0);
+                    break;
             }
         }
     }
 
-    public void PDTurn(float degrees) {
-
-
-    }
     public void toDistance(float position){
 
             Derror = (float) (distance.getDistance(DistanceUnit.MM) - position);

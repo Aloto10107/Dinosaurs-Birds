@@ -58,11 +58,11 @@ public class RedLeftAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        drive.gyroTurn(45);
-        sleep(5000);
+
         drive.gyroTurn(90);
-        sleep(5000);
+        sleep(4000);
         drive.gyroTurn(180);
+
 
 //        drive.upanddown.setPosition(0);
 //        //drive.toDistance(0);

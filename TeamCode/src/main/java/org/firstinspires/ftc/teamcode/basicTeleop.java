@@ -42,17 +42,17 @@ public class basicTeleop extends OpMode {
     public void loop() {
         double leftY = gamepad1.left_stick_y;
         double leftX = gamepad1.left_stick_x;
-        double rightX = .7*(gamepad1.right_stick_x);
+        double rightX = .7 * (gamepad1.right_stick_x);
 
-        if (Math.abs(gamepad1.left_stick_y) < .2){
+        if (Math.abs(gamepad1.left_stick_y) < .2) {
 
             leftY = 0;
         }
-        if (Math.abs(gamepad1.left_stick_x) < .2){
+        if (Math.abs(gamepad1.left_stick_x) < .2) {
 
             leftX = 0;
         }
-        if (Math.abs(gamepad1.right_stick_x) < .2){
+        if (Math.abs(gamepad1.right_stick_x) < .2) {
 
             rightX = 0;
         }
@@ -63,51 +63,49 @@ public class basicTeleop extends OpMode {
         drive.setMotor_fr(-leftY - leftX - rightX);
 
 
-
-        if (gamepad1.dpad_up){
+        if (gamepad1.dpad_up) {
             drive.setMotor_bl(0.8);
             drive.setMotor_fl(0.8);
             drive.setMotor_br(0.8);
             drive.setMotor_fr(0.8);
         }
-        if (gamepad1.dpad_down){
+        if (gamepad1.dpad_down) {
             drive.setMotor_bl(-0.8);
             drive.setMotor_fl(-0.8);
             drive.setMotor_br(-0.8);
             drive.setMotor_fr(-0.8);
         }
-        if (gamepad1.dpad_right){
+        if (gamepad1.dpad_right) {
             drive.setMotor_bl(-0.8);
             drive.setMotor_fl(0.8);
             drive.setMotor_br(0.8);
             drive.setMotor_fr(-0.8);
         }
-        if (gamepad1.dpad_left){
+        if (gamepad1.dpad_left) {
             drive.setMotor_bl(0.8);
             drive.setMotor_fl(-0.8);
             drive.setMotor_br(-0.8);
             drive.setMotor_fr(0.8);
         }
 
-        drive.setLift(0.9*(gamepad2.left_stick_y));
-        drive.setSidearm(0.9*(gamepad2.right_stick_x));
+        drive.setLift(0.9 * (gamepad2.left_stick_y));
+        drive.setSidearm(0.9 * (gamepad2.right_stick_x));
 
 
-
-        if (gamepad2.right_trigger == 1){
+        if (gamepad2.right_trigger == 1) {
             drive.redpinch();
             drive.bluepinch();
         }
-        if (gamepad2.right_trigger != 1){
+        if (gamepad2.right_trigger != 1) {
             drive.rednotPinch();
             drive.bluenotPinch();
         }
-        if (gamepad2.left_trigger == 1){
+        if (gamepad2.left_trigger == 1) {
             drive.NoBodGot();
         }
-        if (gamepad2.left_trigger != 1){
+        if (gamepad2.left_trigger != 1) {
             drive.BodGot();
-        }
+//        }
 //        if(gamepad2.left_trigger == 1)
 //        {
 //            drive.bluepinch();
@@ -116,42 +114,35 @@ public class basicTeleop extends OpMode {
 //        {
 //            drive.bluenotPinch();
 //        }
-        if (gamepad2.b){
-            drive.closeJaws();
-        }
-        if (!gamepad2.b){
-            drive.openJaws();
-        }
+            if (gamepad2.b) {
+                drive.closeJaws();
+            }
+            if (!gamepad2.b) {
+                drive.openJaws();
+            }
 
-        if (gamepad2.dpad_up)
-        {
-            drive.skillup();
-        }
-        if (gamepad2.dpad_down)
-        {
-            drive.skilldown();
-        }
-        if (!gamepad2.x)
-        {
-            preX = true;
-        }
-        if (gamepad2.x)
-        {
-            preX = false;
-        }
-        if (gamepad2.x && !preX)
-        {
-            drive.flip();
-            preX = false;
-        }
-        if(gamepad2.y)
-        {
-            drive.skillup();
-        }
-        if(!gamepad2.y)
-        {
-            drive.skilldown();
-        }
+            if (gamepad2.dpad_up) {
+                drive.skillup();
+            }
+            if (gamepad2.dpad_down) {
+                drive.skilldown();
+            }
+            if (!gamepad2.x) {
+                preX = true;
+            }
+            if (gamepad2.x) {
+                preX = false;
+            }
+            if (gamepad2.x && !preX) {
+                drive.flip();
+                preX = false;
+            }
+            if (gamepad2.y) {
+                drive.skillup();
+            }
+            if (!gamepad2.y) {
+                drive.skilldown();
+            }
      /*   if (gamepad2.dpad_down)
         {
             drive.sensordown();
@@ -160,11 +151,12 @@ public class basicTeleop extends OpMode {
         {
             drive.sensorup();
         }*/
-        //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
-       telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " +  String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
+            //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
+            telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " + String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
 //        telemetry.addData("NormalColor", (drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0]);
-    }
+        }
 
+    }
 }
 
 

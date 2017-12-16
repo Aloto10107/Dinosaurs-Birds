@@ -44,7 +44,7 @@ public class RedRightAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         drive = new DriveBase(hardwareMap);
-        //drive.imuINIT();
+        drive.imuINIT();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -61,6 +61,7 @@ public class RedRightAuto extends LinearOpMode {
 
         drive.bluepinch();
         drive.redpinch();
+        sleep(1000);
         drive.setLift(.5);
         sleep(1000);
         drive.setLift(0);
@@ -72,7 +73,7 @@ public class RedRightAuto extends LinearOpMode {
             Thread.sleep(100);
             drive.upanddown.setPosition(1);
             Thread.sleep(100);
-            drive.turn(-.5,150);
+            drive.turn(-.5,100);
         }
         else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0)
         {
@@ -80,15 +81,12 @@ public class RedRightAuto extends LinearOpMode {
             Thread.sleep(100);
             drive.upanddown.setPosition(1);
             Thread.sleep(100);
-            drive.turn(.5, 150);
+            drive.turn(.5, 100);
         }
         drive.upanddown.setPosition(1);
         Thread.sleep(1000);
-        drive.turn(-.5,500);
-        drive.gyroTurn(0); //get fukd all of yoo try to find what i messed up
-        drive.setBoth(-.25,-.25);
-        sleep(2600);
-        drive.setBoth(0,0);
+//        drive.turn(-.5,500);
+//        drive.gyroTurn(0); //get fukd all of yoo try to find what i messed up
         while (true)
         {
             drive.cry();
@@ -98,16 +96,19 @@ public class RedRightAuto extends LinearOpMode {
             if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 10000)
             {
                 if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
-                    Distance = 500;
+                    Distance = 400;
                 }
                 if(vuMark == RelicRecoveryVuMark.CENTER){
-                    Distance = 1000;
+                    Distance = 900;
                 }
                 if(vuMark == RelicRecoveryVuMark.LEFT){
-                    Distance = 1500;
+                    Distance = 1400;
                 }
+                drive.setBoth(-.25,-.25);
+                sleep(2700);
+                drive.setBoth(0,0);
                 drive.setBoth(-.5,-.5);
-                sleep(500);
+                sleep(1000);
                 drive.setBoth(0,0);
                 telemetry.addData("VuMark", "%s visible", vuMark);
                 telemetry.update();
@@ -148,7 +149,7 @@ public class RedRightAuto extends LinearOpMode {
         sleep(Distance);
         drive.setBoth(0,0);
         sleep(1000);
-        drive.gyroTurn(80);
+        drive.gyroTurn(180);
         sleep(1000);
         drive.setBoth(.5,.5);
         sleep(1000);
@@ -156,7 +157,15 @@ public class RedRightAuto extends LinearOpMode {
         drive.bluenotPinch();
         drive.rednotPinch();
         drive.setBoth(-.5,-.5);
-        sleep(200);
+        sleep(700);
+        drive.setBoth(0,0);
+        sleep(800);
+        drive.setBoth(.5,.5);
+        sleep(700);
+        drive.setBoth(0,0);
+        sleep(800);
+        drive.setBoth(-.5,-.5);
+        sleep(700);
         drive.setBoth(0,0);
 
 //       while (opModeIsActive()) {

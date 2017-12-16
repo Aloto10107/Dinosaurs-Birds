@@ -19,7 +19,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.teamcode.Devices.DriveBase;
 
 import static com.sun.tools.javac.util.Constants.format;
-
 /**
  * Created by aloto10107 on 10/14/17.
  */
@@ -45,7 +44,7 @@ public class BlueLeftAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         drive = new DriveBase(hardwareMap);
-//        drive.imuINIT();
+        drive.imuINIT();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -62,6 +61,7 @@ public class BlueLeftAuto extends LinearOpMode {
 
         drive.bluepinch();
         drive.redpinch();
+        sleep(1000);
         drive.setLift(.5);
         sleep(1000);
         drive.setLift(0);
@@ -73,15 +73,15 @@ public class BlueLeftAuto extends LinearOpMode {
             Thread.sleep(100);
             drive.upanddown.setPosition(1);
             Thread.sleep(100);
-            drive.turn(-.5,150);
+            drive.turn(-.5,100);
         }
-        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[2] >= .6)
+        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .6)
         {
             drive.turn(-.5,100);
             Thread.sleep(100);
             drive.upanddown.setPosition(1);
             Thread.sleep(100);
-            drive.turn(.5, 150);
+            drive.turn(.5, 100);
         }
         drive.upanddown.setPosition(1);
         Thread.sleep(1000);
@@ -95,17 +95,20 @@ public class BlueLeftAuto extends LinearOpMode {
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 10000)
             {
-                if(vuMark == RelicRecoveryVuMark.LEFT || vuMark == RelicRecoveryVuMark.UNKNOWN){
-                    Distance = 500;
+                if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
+                    Distance = 1400;
                 }
                 if(vuMark == RelicRecoveryVuMark.CENTER){
-                    Distance = 1000;
+                    Distance = 900;
                 }
-                if(vuMark == RelicRecoveryVuMark.RIGHT){
-                    Distance = 1500;
+                if(vuMark == RelicRecoveryVuMark.LEFT){
+                    Distance = 400;
                 }
                 drive.setBoth(.25,.25);
-                sleep(3600);
+                sleep(2700);
+                drive.setBoth(0,0);
+                drive.setBoth(.5,.5);
+                sleep(1000);
                 drive.setBoth(0,0);
                 telemetry.addData("VuMark", "%s visible", vuMark);
                 telemetry.update();
@@ -140,32 +143,28 @@ public class BlueLeftAuto extends LinearOpMode {
 //            }
 //        }
 
-        telemetry.addData("","test");
-        telemetry.update();
-//        drive.gyroTurn(-90);
-//        sleep(750);
-//        drive.setBoth(.5,.5);
-//        sleep(Distance);
-//        drive.setBoth(0,0);
-//        sleep(1000);
-//        drive.gyroTurn(-80);
-//        sleep(1000);
         drive.setMotor_bl(-.5);
         drive.setMotor_fl(.5);
         drive.setMotor_br(.5);
         drive.setMotor_fr(-.5);
         sleep(Distance);
-        drive.setMotor_bl(0);
-        drive.setMotor_fl(0);
-        drive.setMotor_br(0);
-        drive.setMotor_fr(0);
+        drive.setBoth(0,0);
+        sleep(1000);
         drive.setBoth(.5,.5);
         sleep(1000);
         drive.setBoth(0,0);
         drive.bluenotPinch();
         drive.rednotPinch();
         drive.setBoth(-.5,-.5);
-        sleep(200);
+        sleep(700);
+        drive.setBoth(0,0);
+        sleep(800);
+        drive.setBoth(.5,.5);
+        sleep(700);
+        drive.setBoth(0,0);
+        sleep(800);
+        drive.setBoth(-.5,-.5);
+        sleep(700);
         drive.setBoth(0,0);
 
 //       while (opModeIsActive()) {
