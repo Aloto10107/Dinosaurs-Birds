@@ -11,7 +11,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
@@ -45,7 +47,7 @@ public class BlueRightAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         drive = new DriveBase(hardwareMap);
-//        drive.imuINIT();
+        drive.imuINIT();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -54,97 +56,102 @@ public class BlueRightAuto extends LinearOpMode {
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
+        relicTrackables.activate();
 
         telemetry.addData(">", "Press Play to start");
         telemetry.update();
         waitForStart();
 
+        drive.drive(90,1000, .5);
+
+       /* drive.imu.startAccelerationIntegration(new Position(DistanceUnit.MM, 0, 0, 0, 0), new Velocity(DistanceUnit.MM, 0, 0, 0, 0), 100);
+        while(true){
+            telemetry.addData("acceleration", drive.imu.getAcceleration());
+            telemetry.addData("velocity", drive.imu.getVelocity());
+            telemetry.addData("position", drive.imu.getPosition());
+            telemetry.update();
+        }*/
+
+
+/*        drive.bluepinch();
+        drive.redpinch();
+        sleep(1000);
+        drive.setLift(-.5);
+        sleep(1000);
+        drive.setLift(0);
         drive.upanddown.setPosition(0);
-        //drive.toDistance(0);
         Thread.sleep(2500);
-        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[2] >= .6)
-        {
-            drive.turn(-.5,100);
-        }
-        else if ((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[2] <= 0)
+        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0)
         {
             drive.turn(.5,100);
+            Thread.sleep(100);
+            drive.upanddown.setPosition(1);
+            Thread.sleep(100);
+            drive.turn(-.5,100);
         }
-        Thread.sleep(1000);
+        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .6)
+        {
+            drive.turn(-.5,100);
+            Thread.sleep(100);
+            drive.upanddown.setPosition(1);
+            Thread.sleep(100);
+            drive.turn(.5, 100);
+        }
         drive.upanddown.setPosition(1);
-        drive.gyroTurn(-90);
+        Thread.sleep(1000);*/
 
+//        relicTrackables.activate();
+//
+//
+//        while (opModeIsActive()) {
+//            /**
+//             * See if any of the instances of {@link relicTemplate} are currently visible.
+//             * {@link RelicRecoveryVuMark} is an enum which can have the following values:
+//             * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
+//             * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
+//             */
+//            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+//            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
+//
+//                /* Found an instance of the template. In the actual game, you will probably
+//                 * loop until this condition occurs, then move on to act accordingly depending
+//                 * on which VuMark was visible. */
+//                telemetry.addData("VuMark", "%s visible", vuMark);
+//
+//                /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
+//                 * it is perhaps unlikely that you will actually need to act on this pose information, but
+//                 * we illustrate it nevertheless, for completeness. */
+//                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
+//                telemetry.addData("Pose", format(pose));
+//
+//                /* We further illustrate how to decompose the pose into useful rotational and
+//                 * translational components */
+//                if (pose != null) {
+//                    VectorF trans = pose.getTranslation();
+//                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+//
+//                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
+//                    tX = trans.get(0);
+//                    tY = trans.get(1);
+//                    tZ = trans.get(2);
+//
+//                    // Extract the rotational components of the target relative to the robot
+//                    rX = rot.firstAngle;
+//                    rY = rot.secondAngle;
+//                    rZ = rot.thirdAngle;
+//
+//                }
+//            }
+//            else {
+//                telemetry.addData("VuMark", "not visible");
+//            }
 
-        Yerror = tY - 0;
-        while (Math.abs(Yerror) >= 10) {
-            float Kp = (float) 0.01;
-            Yerror = tY - 0;
-            drive.setMotor_bl(Yerror * Kp);
-            drive.setMotor_fl(-Yerror * Kp);
-            drive.setMotor_br(-Yerror * Kp);
-            drive.setMotor_fr(Yerror * Kp);
-            if (Math.abs(Yerror) <= 20) {
-                drive.setMotor_bl(0);
-                drive.setMotor_fl(0);
-                drive.setMotor_br(0);
-                drive.setMotor_fr(0);
-                break;
-            }
-        }
-
-
-        relicTrackables.activate();
-
-
-        while (opModeIsActive()) {
-            /**
-             * See if any of the instances of {@link relicTemplate} are currently visible.
-             * {@link RelicRecoveryVuMark} is an enum which can have the following values:
-             * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
-             * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
-             */
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-
-                /* Found an instance of the template. In the actual game, you will probably
-                 * loop until this condition occurs, then move on to act accordingly depending
-                 * on which VuMark was visible. */
-                telemetry.addData("VuMark", "%s visible", vuMark);
-
-                /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
-                 * it is perhaps unlikely that you will actually need to act on this pose information, but
-                 * we illustrate it nevertheless, for completeness. */
-                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
-                telemetry.addData("Pose", format(pose));
-
-                /* We further illustrate how to decompose the pose into useful rotational and
-                 * translational components */
-                if (pose != null) {
-                    VectorF trans = pose.getTranslation();
-                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-
-                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
-                    tX = trans.get(0);
-                    tY = trans.get(1);
-                    tZ = trans.get(2);
-
-                    // Extract the rotational components of the target relative to the robot
-                    rX = rot.firstAngle;
-                    rY = rot.secondAngle;
-                    rZ = rot.thirdAngle;
-
-                }
-            }
-            else {
-                telemetry.addData("VuMark", "not visible");
-            }
-
-            telemetry.addData("error", String.valueOf(drive.Gerror));
+/*            telemetry.addData("error", String.valueOf(drive.Gerror));
             telemetry.addData("red", drive.getColor()[0]);
             telemetry.addData("green", drive.getColor()[1]);
             telemetry.addData("blue", drive.getColor()[2]);
             telemetry.addData("Distance", drive.Derror);
-            telemetry.update();
+            telemetry.update();*/
         }
     }
-}
+

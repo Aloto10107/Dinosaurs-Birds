@@ -40,9 +40,9 @@ public class basicTeleop extends OpMode {
 
     @Override
     public void loop() {
-        double leftY = gamepad1.left_stick_y;
-        double leftX = gamepad1.left_stick_x;
-        double rightX = .7 * (gamepad1.right_stick_x);
+        double leftY = gamepad1.left_stick_y*gamepad1.left_stick_y*gamepad1.left_stick_y;
+        double leftX = gamepad1.left_stick_x*gamepad1.left_stick_x*gamepad1.left_stick_x;
+        double rightX = drive.powerScale * (gamepad1.right_stick_x);
 
         if (Math.abs(gamepad1.left_stick_y) < .2) {
 
@@ -105,44 +105,36 @@ public class basicTeleop extends OpMode {
         }
         if (gamepad2.left_trigger != 1) {
             drive.BodGot();
-//        }
-//        if(gamepad2.left_trigger == 1)
-//        {
-//            drive.bluepinch();
-//        }
-//        if(gamepad2.left_trigger != 1)
-//        {
-//            drive.bluenotPinch();
-//        }
-            if (gamepad2.b) {
-                drive.closeJaws();
-            }
-            if (!gamepad2.b) {
-                drive.openJaws();
-            }
+        }
+        if (gamepad2.x){
+            drive.ReverseBodGot();
+        }
+        if (gamepad2.b) {
+            drive.closeJaws();
+        }
+        if (!gamepad2.b) {
+            drive.openJaws();
+        }
 
-            if (gamepad2.dpad_up) {
-                drive.skillup();
-            }
-            if (gamepad2.dpad_down) {
-                drive.skilldown();
-            }
-            if (!gamepad2.x) {
-                preX = true;
-            }
-            if (gamepad2.x) {
-                preX = false;
-            }
-            if (gamepad2.x && !preX) {
-                drive.flip();
-                preX = false;
-            }
-            if (gamepad2.y) {
-                drive.skillup();
-            }
-            if (!gamepad2.y) {
-                drive.skilldown();
-            }
+        if (gamepad2.dpad_up) {
+            drive.skillup();
+        }
+        if (gamepad2.dpad_down) {
+            drive.skilldown();
+        }
+        if (gamepad2.y) {
+            drive.skillup();
+        }
+        if (!gamepad2.y) {
+            drive.skilldown();
+        }
+        if (gamepad1.a){
+            drive.powerScale = .4;
+        }
+        if (!gamepad1.a){
+            drive.powerScale = .4;
+        }
+
      /*   if (gamepad2.dpad_down)
         {
             drive.sensordown();
@@ -157,6 +149,6 @@ public class basicTeleop extends OpMode {
         }
 
     }
-}
+
 
 

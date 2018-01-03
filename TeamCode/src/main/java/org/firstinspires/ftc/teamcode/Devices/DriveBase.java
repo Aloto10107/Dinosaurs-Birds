@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.sun.tools.javac.tree.DCTree;
 
@@ -49,7 +50,7 @@ public class DriveBase {
     private Servo skill_crane;
     private Servo jaws;
     public Servo upanddown;
-    BNO055IMU imu;
+    public BNO055IMU imu;
     private Orientation angles;
     private Acceleration acceleration;
     private Position position = null;
@@ -66,6 +67,7 @@ public class DriveBase {
     float deltaTime = 0;
     float preTime = 0;
     float PDout = 0;
+    public double powerScale;
     VuforiaLocalizer vuforia;
 
     public DriveBase(HardwareMap hardwareMap) {
@@ -94,6 +96,7 @@ public class DriveBase {
         BodGot[1] = hardwareMap.dcMotor.get("InRight");
 
         BodGot[0].setDirection(DcMotorSimple.Direction.REVERSE);
+        BodGot[1].setDirection(DcMotorSimple.Direction.REVERSE);
 
         lift = hardwareMap.dcMotor.get("PinchArm");
         sidearm = hardwareMap.dcMotor.get("SideArm");
@@ -216,11 +219,15 @@ public class DriveBase {
             SpinPos = .89;
         }
     }
-    public void BodGot(){
-        BodGot[0].setPower(1);
+    public void NoBodGot(){
+        BodGot[0].setPower(-1);
         BodGot[1].setPower(1);
     }
-    public void NoBodGot(){
+    public void ReverseBodGot(){
+        BodGot[0].setPower(1);
+        BodGot[1].setPower(-1);
+    }
+    public void BodGot(){
         BodGot[0].setPower(0);
         BodGot[1].setPower(0);
     }
@@ -248,7 +255,7 @@ public class DriveBase {
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        parameters.accelerationIntegrationAlgorithm = null;
         imu.initialize(parameters);
     }
     public float getHeading() {
@@ -262,6 +269,23 @@ public class DriveBase {
         double[] accel = new double[] {acceleration.xAccel,acceleration.yAccel,acceleration.zAccel};
 
         return accel;
+    }
+    public void drive(float angle, long time, double power){
+        double[] MP;
+        MP = new double[4];
+        gyroTurn(angle);
+        ElapsedTime runTime = new ElapsedTime();
+        while (runTime.time() < time) {
+            float theta = angle;
+            MP[0] = (Math.sin(theta) + Math.cos(theta)) * power;
+            MP[1] = (Math.sin(theta) - Math.cos(theta)) * power;
+            MP[2] = (Math.sin(theta) - Math.cos(theta)) * power;
+            MP[3] = (Math.sin(theta) + Math.cos(theta)) * power;
+            setMotor_bl(PDoutput(angle) + MP[0]);
+            setMotor_fl(PDoutput(angle) + MP[1]);
+            setMotor_br(PDoutput(angle) + MP[2]);
+            setMotor_fr(PDoutput(angle) + MP[3]);
+        }
     }
     public void gyroBadTurn(float degrees){
 
@@ -309,6 +333,15 @@ public class DriveBase {
                     break;
             }
         }
+    }
+    public float PDoutput(float degrees){
+        float Kp = (float) 0.008;
+        float Kd = (float) 0.0001;
+        deltaTime = System.nanoTime() - preTime;
+        Gerror = degrees - getHeading();
+        PDout = (Kp * Gerror) + (Kd * (Gerror/deltaTime));
+        preTime = currentTime;
+        return PDout;
     }
 
     public void toDistance(float position){

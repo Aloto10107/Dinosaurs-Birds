@@ -62,7 +62,7 @@ public class RedRightAuto extends LinearOpMode {
         drive.bluepinch();
         drive.redpinch();
         sleep(1000);
-        drive.setLift(.5);
+        drive.setLift(-.5);
         sleep(1000);
         drive.setLift(0);
         drive.upanddown.setPosition(0);
@@ -84,7 +84,7 @@ public class RedRightAuto extends LinearOpMode {
             drive.turn(.5, 100);
         }
         drive.upanddown.setPosition(1);
-        Thread.sleep(1000);
+        Thread.sleep(900);
 //        drive.turn(-.5,500);
 //        drive.gyroTurn(0); //get fukd all of yoo try to find what i messed up
         while (true)
@@ -93,16 +93,16 @@ public class RedRightAuto extends LinearOpMode {
             telemetry.addData("Tears", drive.tears);
             telemetry.update();
             RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-            if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 10000)
+            if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 100000)
             {
                 if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
-                    Distance = 400;
+                    Distance = 650;
                 }
                 if(vuMark == RelicRecoveryVuMark.CENTER){
-                    Distance = 900;
+                    Distance = 1300;
                 }
                 if(vuMark == RelicRecoveryVuMark.LEFT){
-                    Distance = 1400;
+                    Distance = 2100;
                 }
                 drive.setBoth(-.25,-.25);
                 sleep(2700);
