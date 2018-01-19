@@ -109,19 +109,6 @@ public class basicTeleop extends OpMode {
         if (gamepad2.x){
             drive.ReverseBodGot();
         }
-        if (gamepad2.b) {
-            drive.closeJaws();
-        }
-        if (!gamepad2.b) {
-            drive.openJaws();
-        }
-
-        if (gamepad2.dpad_up) {
-            drive.skillup();
-        }
-        if (gamepad2.dpad_down) {
-            drive.skilldown();
-        }
         if (gamepad2.y) {
             drive.skillup();
         }
@@ -129,11 +116,15 @@ public class basicTeleop extends OpMode {
             drive.skilldown();
         }
         if (gamepad1.a){
-            drive.powerScale = .4;
+            drive.jaws.setPosition(.04);
         }
-        if (!gamepad1.a){
-            drive.powerScale = .4;
+        if (gamepad2.b){
+            drive.jaws.setPosition(.08);        }
+        if (!gamepad2.b && !gamepad2.a) {
+            drive.jaws.setPosition(0);
         }
+
+
 
      /*   if (gamepad2.dpad_down)
         {
@@ -145,6 +136,7 @@ public class basicTeleop extends OpMode {
         }*/
             //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
             telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " + String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
+            telemetry.addData("position", drive.jaws.getPosition());
 //        telemetry.addData("NormalColor", (drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0]);
         }
 

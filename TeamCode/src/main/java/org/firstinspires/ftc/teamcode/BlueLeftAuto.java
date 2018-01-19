@@ -105,7 +105,7 @@ public class BlueLeftAuto extends LinearOpMode {
                     Distance = 650;
                 }
                 drive.setBoth(.25,.25);
-                sleep(2700);
+                sleep(2500);
                 drive.setBoth(0,0);
                 drive.setBoth(.5,.5);
                 sleep(1000);

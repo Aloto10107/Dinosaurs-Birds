@@ -37,6 +37,7 @@ import static com.sun.tools.javac.util.Constants.format;
 import static java.lang.Thread.sleep;
 
 import java.lang.Math;
+import java.util.concurrent.TimeUnit;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
@@ -47,8 +48,8 @@ public class DriveBase {
     private DcMotor sidearm;
     private Servo[] pinchies;
     private DcMotor[] BodGot;
-    private Servo skill_crane;
-    private Servo jaws;
+    public Servo skill_crane;
+    public Servo jaws;
     public Servo upanddown;
     public BNO055IMU imu;
     private Orientation angles;
@@ -77,6 +78,8 @@ public class DriveBase {
 
         leftMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         leftMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
+//        leftMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         rightMotors = new DcMotor[2];
         rightMotors[0] = hardwareMap.dcMotor.get("motor_fr");
@@ -84,6 +87,9 @@ public class DriveBase {
 
         rightMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
+//        rightMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         pinchies = new Servo[4];
         pinchies[0] = hardwareMap.servo.get("top_right");
@@ -237,10 +243,15 @@ public class DriveBase {
     public void closeJaws(){
         jaws.setPosition(1);
     }
+    public void jawsDown() throws InterruptedException {
+        double newPos = jaws.getPosition() - 0.001;
+        jaws.setPosition(newPos);
+        Thread.sleep(100);
+    }
     public void skillup(){
         //double newPos = skill_crane.getPosition() - 0.2;
         //skill_crane.setPosition(newPos);
-        skill_crane.setPosition(.8);
+        skill_crane.setPosition(.5);
     }
     public void skilldown(){
         //double newPos = skill_crane.getPosition() + 0.2;
@@ -248,6 +259,7 @@ public class DriveBase {
         skill_crane.setPosition(0);
 
     }
+
     public void imuINIT(){
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
@@ -259,7 +271,7 @@ public class DriveBase {
         imu.initialize(parameters);
     }
     public float getHeading() {
-        //PLZ dont touch
+        //PLZ dont touch *touch*
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
         }
@@ -275,7 +287,7 @@ public class DriveBase {
         MP = new double[4];
         gyroTurn(angle);
         ElapsedTime runTime = new ElapsedTime();
-        while (runTime.time() < time) {
+        while (runTime.time(TimeUnit.MILLISECONDS) < time) {
             float theta = angle;
             MP[0] = (Math.sin(theta) + Math.cos(theta)) * power;
             MP[1] = (Math.sin(theta) - Math.cos(theta)) * power;

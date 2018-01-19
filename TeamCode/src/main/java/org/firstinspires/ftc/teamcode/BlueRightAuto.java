@@ -11,9 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
@@ -41,7 +39,7 @@ public class BlueRightAuto extends LinearOpMode {
     double rX = 0;
     double rY = 0;
     double rZ = 0;
-
+    long Distance = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -62,18 +60,7 @@ public class BlueRightAuto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        drive.drive(90,1000, .5);
-
-       /* drive.imu.startAccelerationIntegration(new Position(DistanceUnit.MM, 0, 0, 0, 0), new Velocity(DistanceUnit.MM, 0, 0, 0, 0), 100);
-        while(true){
-            telemetry.addData("acceleration", drive.imu.getAcceleration());
-            telemetry.addData("velocity", drive.imu.getVelocity());
-            telemetry.addData("position", drive.imu.getPosition());
-            telemetry.update();
-        }*/
-
-
-/*        drive.bluepinch();
+        drive.bluepinch();
         drive.redpinch();
         sleep(1000);
         drive.setLift(-.5);
@@ -81,15 +68,7 @@ public class BlueRightAuto extends LinearOpMode {
         drive.setLift(0);
         drive.upanddown.setPosition(0);
         Thread.sleep(2500);
-        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0)
-        {
-            drive.turn(.5,100);
-            Thread.sleep(100);
-            drive.upanddown.setPosition(1);
-            Thread.sleep(100);
-            drive.turn(-.5,100);
-        }
-        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .6)
+        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .6)
         {
             drive.turn(-.5,100);
             Thread.sleep(100);
@@ -97,61 +76,74 @@ public class BlueRightAuto extends LinearOpMode {
             Thread.sleep(100);
             drive.turn(.5, 100);
         }
-        drive.upanddown.setPosition(1);
-        Thread.sleep(1000);*/
-
-//        relicTrackables.activate();
-//
-//
-//        while (opModeIsActive()) {
-//            /**
-//             * See if any of the instances of {@link relicTemplate} are currently visible.
-//             * {@link RelicRecoveryVuMark} is an enum which can have the following values:
-//             * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
-//             * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
-//             */
-//            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-//            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-//
-//                /* Found an instance of the template. In the actual game, you will probably
-//                 * loop until this condition occurs, then move on to act accordingly depending
-//                 * on which VuMark was visible. */
-//                telemetry.addData("VuMark", "%s visible", vuMark);
-//
-//                /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
-//                 * it is perhaps unlikely that you will actually need to act on this pose information, but
-//                 * we illustrate it nevertheless, for completeness. */
-//                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
-//                telemetry.addData("Pose", format(pose));
-//
-//                /* We further illustrate how to decompose the pose into useful rotational and
-//                 * translational components */
-//                if (pose != null) {
-//                    VectorF trans = pose.getTranslation();
-//                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-//
-//                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
-//                    tX = trans.get(0);
-//                    tY = trans.get(1);
-//                    tZ = trans.get(2);
-//
-//                    // Extract the rotational components of the target relative to the robot
-//                    rX = rot.firstAngle;
-//                    rY = rot.secondAngle;
-//                    rZ = rot.thirdAngle;
-//
-//                }
-//            }
-//            else {
-//                telemetry.addData("VuMark", "not visible");
-//            }
-
-/*            telemetry.addData("error", String.valueOf(drive.Gerror));
-            telemetry.addData("red", drive.getColor()[0]);
-            telemetry.addData("green", drive.getColor()[1]);
-            telemetry.addData("blue", drive.getColor()[2]);
-            telemetry.addData("Distance", drive.Derror);
-            telemetry.update();*/
+        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0)
+        {
+            drive.turn(.5,100);
+            Thread.sleep(100);
+            drive.upanddown.setPosition(1);
+            Thread.sleep(100);
+            drive.turn(-.5,100);
         }
+        drive.upanddown.setPosition(1);
+        Thread.sleep(1000);
+
+        while (true)
+        {
+            drive.cry();
+            telemetry.addData("Tears", drive.tears);
+            telemetry.update();
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 100000)
+            {
+                if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
+                    Distance = 1400;
+                }
+                if(vuMark == RelicRecoveryVuMark.CENTER){
+                    Distance = 850;
+                }
+                if(vuMark == RelicRecoveryVuMark.LEFT){
+                    Distance = 150;
+                }
+                drive.setBoth(.25,.25);
+                sleep(2500);
+                drive.setBoth(0,0);
+                drive.setBoth(.5,.5);
+                sleep(750);
+                drive.setBoth(0,0);
+                telemetry.addData("VuMark", "%s visible", vuMark);
+                telemetry.update();
+                break;
+            }
+        }
+        drive.setBoth(.5,.5);//off the ramp
+        sleep(Distance);
+        drive.setBoth(0,0);
+        drive.gyroTurn(90);//turn towards the cryptobox
+        sleep(1000);
+        drive.setBoth(.5,.5);//go towards correct column
+        sleep(1500);
+        drive.setBoth(0,0);
+        drive.bluenotPinch();//release cubes
+        drive.rednotPinch();
+        drive.setBoth(-.5,-.5);
+        sleep(800);
+        drive.setBoth(0,0);
+        sleep(900);
+        drive.setBoth(.5,.5);//ram cube into correct column
+        sleep(1000);
+        drive.setBoth(0,0);
+        sleep(900);
+        drive.setBoth(-.5,-.5);//end in zone
+        sleep(800);
+        drive.setBoth(0,0);
+
+
+        telemetry.addData("error", String.valueOf(drive.Gerror));
+        telemetry.addData("red", drive.getColor()[0]);
+        telemetry.addData("green", drive.getColor()[1]);
+        telemetry.addData("blue", drive.getColor()[2]);
+        telemetry.addData("Distance", drive.Derror);
+        telemetry.update();
     }
+}
 

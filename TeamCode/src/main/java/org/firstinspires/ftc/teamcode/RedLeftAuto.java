@@ -39,6 +39,7 @@ public class RedLeftAuto extends LinearOpMode {
     double rX = 0;
     double rY = 0;
     double rZ = 0;
+    long Distance = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -86,90 +87,86 @@ public class RedLeftAuto extends LinearOpMode {
         drive.upanddown.setPosition(1);
         Thread.sleep(1000);
 
-//        drive.upanddown.setPosition(0);
-//        //drive.toDistance(0);
-//        Thread.sleep(2500);
-//        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .6)
-//        {
-//            drive.turn(.5,100);
-//        }
-//        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0)
-//        {
-//            drive.turn(-.5,100);
-//        }
-//        Thread.sleep(1000);
-//        drive.upanddown.setPosition(1);
-//        drive.gyroTurn(90);
-//
-//        Yerror = tY - 0;
-//        while (Math.abs(Yerror) >= 10) {
-//            float Kp = (float) 0.01;
-//            Yerror = tY - 0;
-//            drive.setMotor_bl(Yerror * Kp);
-//            drive.setMotor_fl(-Yerror * Kp);
-//            drive.setMotor_br(-Yerror * Kp);
-//            drive.setMotor_fr(Yerror * Kp);
-//            if (Math.abs(Yerror) <= 4) {
-//                drive.setMotor_bl(0);
-//                drive.setMotor_fl(0);
-//                drive.setMotor_br(0);
-//                drive.setMotor_fr(0);
-//                break;
-//            }
-//        }
-
-
-//        relicTrackables.activate();
-//
-//        while (opModeIsActive()) {
-//            /**
-//             * See if any of the instances of {@link relicTemplate} are currently visible.
-//             * {@link RelicRecoveryVuMark} is an enum which can have the following values:
-//             * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
-//             * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
-//             */
-//            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-//            if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-//
-//                /* Found an instance of the template. In the actual game, you will probably
-//                 * loop until this condition occurs, then move on to act accordingly depending
-//                 * on which VuMark was visible. */
-//                telemetry.addData("VuMark", "%s visible", vuMark);
-//
-//                /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
-//                 * it is perhaps unlikely that you will actually need to act on this pose information, but
-//                 * we illustrate it nevertheless, for completeness. */
-//                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
-//                telemetry.addData("Pose", format(pose));
-//
-//                /* We further illustrate how to decompose the pose into useful rotational and
-//                 * translational components */
-//                if (pose != null) {
-//                    VectorF trans = pose.getTranslation();
-//                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-//
-//                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
-//                    tX = trans.get(0);
-//                    tY = trans.get(1);
-//                    tZ = trans.get(2);
-//
-//                    // Extract the rotational components of the target relative to the robot
-//                    rX = rot.firstAngle;
-//                    rY = rot.secondAngle;
-//                    rZ = rot.thirdAngle;
-//                }
-//            }
-//            else {
-//                telemetry.addData("VuMark", "not visible");
-//            }
-
-            telemetry.addData("error", String.valueOf(drive.Gerror));
-            telemetry.addData("red", drive.getColor()[0]);
-            telemetry.addData("green", drive.getColor()[1]);
-            telemetry.addData("blue", drive.getColor()[2]);
-            telemetry.addData("Distance", drive.Derror);
-
+        while (true)
+        {
+            drive.cry();
+            telemetry.addData("Tears", drive.tears);
             telemetry.update();
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 100000)
+            {
+                if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
+                    Distance = 100;
+                }
+                if(vuMark == RelicRecoveryVuMark.CENTER){
+                    Distance = 850;
+                }
+                if(vuMark == RelicRecoveryVuMark.LEFT){
+                    Distance = 1400;
+                }
+                drive.setBoth(-.25,-.25);
+                sleep(2500);
+                drive.setBoth(0,0);
+                drive.setBoth(-.5,-.5);
+                sleep(750);
+                drive.setBoth(0,0);
+                telemetry.addData("VuMark", "%s visible", vuMark);
+                telemetry.update();
+                break;
+            }
         }
+        drive.setBoth(-.5,-.5);
+        sleep(Distance);
+        drive.setBoth(0,0);
+        drive.gyroTurn(90);
+        sleep(1000);
+        drive.setBoth(.5,.5);
+        sleep(1500);
+        drive.setBoth(0,0);
+        drive.bluenotPinch();
+        drive.rednotPinch();
+        drive.setBoth(-.5,-.5);
+        sleep(700);
+        drive.setBoth(0,0);
+        sleep(900);
+        drive.setBoth(.5,.5);
+        sleep(1000);
+        drive.setBoth(0,0);
+        sleep(900);
+        drive.setBoth(-.5,-.5);
+        sleep(800);
+        drive.gyroTurn(180);
+        sleep(500);
+        drive.BodGot();
+        sleep(100);
+        drive.setLift(.5);
+        sleep(1000);
+        drive.setLift(0);
+        sleep(100);
+        drive.setBoth(.5,5);
+        sleep(2500);
+        drive.setBoth(-.5,-.5);
+        sleep(1000);
+        drive.bluepinch();
+        drive.redpinch();
+        drive.gyroTurn(0);
+        drive.setBoth(.5,.5);
+        sleep(1500);
+
+
+
+
+
+
+        drive.setBoth(0,0);
+
+
+        telemetry.addData("error", String.valueOf(drive.Gerror));
+        telemetry.addData("red", drive.getColor()[0]);
+        telemetry.addData("green", drive.getColor()[1]);
+        telemetry.addData("blue", drive.getColor()[2]);
+        telemetry.addData("Distance", drive.Derror);
+        telemetry.update();
+    }
     }
 

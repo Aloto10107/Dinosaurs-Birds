@@ -102,10 +102,10 @@ public class RedRightAuto extends LinearOpMode {
                     Distance = 1300;
                 }
                 if(vuMark == RelicRecoveryVuMark.LEFT){
-                    Distance = 2100;
+                    Distance = 2030;
                 }
                 drive.setBoth(-.25,-.25);
-                sleep(2700);
+                sleep(2500);
                 drive.setBoth(0,0);
                 drive.setBoth(-.5,-.5);
                 sleep(1000);

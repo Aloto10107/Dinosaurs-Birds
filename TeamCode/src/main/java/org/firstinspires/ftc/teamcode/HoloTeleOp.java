@@ -29,122 +29,139 @@ import org.firstinspires.ftc.teamcode.Devices.DriveBase;
 public class HoloTeleOp extends OpMode {
 
     public DriveBase drive;
-    Orientation angles;
-    //public ConceptVuMarkIdentification vuforia;
     private boolean preX;
 
     @Override
     public void init() {
 
-        //vuforia = new ConceptVuMarkIdentification();
         drive = new DriveBase(hardwareMap);
-        drive.imuINIT();
         drive.upanddown.setPosition(1);
-
-
     }
 
     @Override
     public void loop() {
-        double leftY = gamepad1.left_stick_y;
-        double leftX = gamepad1.left_stick_x;
-        double rightX = gamepad1.right_stick_x;
+        double leftY = gamepad1.left_stick_y*gamepad1.left_stick_y*gamepad1.left_stick_y;
+        double leftX = gamepad1.left_stick_x*gamepad1.left_stick_x*gamepad1.left_stick_x;
+        double rightX = drive.powerScale * (gamepad1.right_stick_x);
 
-        if (Math.abs(gamepad1.left_stick_y) < .1){
+        if (Math.abs(gamepad1.left_stick_y) < .2) {
 
             leftY = 0;
         }
-        if (Math.abs(gamepad1.left_stick_x) < .1){
+        if (Math.abs(gamepad1.left_stick_x) < .2) {
 
             leftX = 0;
         }
-        if (Math.abs(gamepad1.right_stick_x) < .1){
+        if (Math.abs(gamepad1.right_stick_x) < .2) {
 
             rightX = 0;
         }
 
-        drive.setMotor_bl(leftY + leftX - rightX);
-        drive.setMotor_fl(leftY - leftX - rightX);
-        drive.setMotor_br(leftY - leftX + rightX);
-        drive.setMotor_fr(leftY + leftX + rightX);
-/*
-        if (gamepad1.dpad_up){
-            drive.setMotor_bl(-0.8);
-            drive.setMotor_fl(-0.8);
-            drive.setMotor_br(-0.8);
-            drive.setMotor_fr(-0.8);
-        }
-        if (gamepad1.dpad_down){
-            drive.setMotor_bl(0.8);
-            drive.setMotor_fl(0.8);
-            drive.setMotor_br(0.8);
-            drive.setMotor_fr(0.8);
-        }
-        if (gamepad1.dpad_right){
-            drive.setMotor_bl(-0.8);
-            drive.setMotor_fl(0.8);
-            drive.setMotor_br(0.8);
-            drive.setMotor_fr(-0.8);
-        }
-        if (gamepad1.dpad_left){
-            drive.setMotor_bl(0.8);
-            drive.setMotor_fl(-0.8);
-            drive.setMotor_br(-0.8);
-            drive.setMotor_fr(0.8);
-        }
-*/
-        drive.setLift(0.9*(gamepad2.left_stick_y));
-        drive.setSidearm(0.9*(gamepad2.right_stick_x));
+        drive.setMotor_bl(-leftY - leftX + rightX);
+        drive.setMotor_fl(-leftY + leftX + rightX);
+        drive.setMotor_br(-leftY + leftX - rightX);
+        drive.setMotor_fr(-leftY - leftX - rightX);
 
-        if (gamepad2.right_bumper){
+
+        if (gamepad1.dpad_up) {
+            drive.setMotor_bl(0.8);
+            drive.setMotor_fl(0.8);
+            drive.setMotor_br(0.8);
+            drive.setMotor_fr(0.8);
+        }
+        if (gamepad1.dpad_down) {
+            drive.setMotor_bl(-0.8);
+            drive.setMotor_fl(-0.8);
+            drive.setMotor_br(-0.8);
+            drive.setMotor_fr(-0.8);
+        }
+        if (gamepad1.dpad_right) {
+            drive.setMotor_bl(-0.8);
+            drive.setMotor_fl(0.8);
+            drive.setMotor_br(0.8);
+            drive.setMotor_fr(-0.8);
+        }
+        if (gamepad1.dpad_left) {
+            drive.setMotor_bl(0.8);
+            drive.setMotor_fl(-0.8);
+            drive.setMotor_br(-0.8);
+            drive.setMotor_fr(0.8);
+        }
+
+        drive.setLift(0.9 * (gamepad2.left_stick_y));
+        drive.setSidearm(0.9 * (gamepad2.right_stick_x));
+
+
+        if (gamepad2.right_bumper) {
             drive.redpinch();
-        }
-        if (!gamepad2.right_bumper){
-            drive.rednotPinch();
-        }
-        if(gamepad2.left_bumper)
-        {
             drive.bluepinch();
         }
-        if(!gamepad2.left_bumper)
-        {
+        if (!gamepad2.right_bumper) {
+            drive.rednotPinch();
             drive.bluenotPinch();
         }
-        if (gamepad2.b){
+        if (gamepad2.left_trigger == 1) {
+            drive.NoBodGot();
+        }
+        if (gamepad2.left_trigger != 1) {
+            drive.BodGot();
+        }
+        if (gamepad2.x){
+            drive.ReverseBodGot();
+        }
+        if (gamepad2.b) {
             drive.closeJaws();
         }
-        if (!gamepad2.b){
+        if (!gamepad2.b) {
             drive.openJaws();
         }
 
-        if (gamepad2.dpad_up)
-        {
+        if (gamepad2.y) {
             drive.skillup();
         }
-        if (gamepad2.dpad_down)
-        {
+        if (!gamepad2.y) {
             drive.skilldown();
         }
-        if (!gamepad2.x)
-        {
-            preX = true;
+        if (gamepad1.a){
+            drive.powerScale = .4;
         }
-        if (gamepad2.x)
-        {
-            preX = false;
+        if (!gamepad1.a){
+            drive.powerScale = .4;
         }
-        if (gamepad2.x && !preX)
-        {
-            drive.flip();
-            preX = false;
+        drive.jaws.setPosition(gamepad2.right_trigger);
+        if (gamepad2.dpad_up){
+            drive.jaws.setPosition(0.5);
+        }
+        else if (gamepad2.dpad_right){
+            drive.jaws.setPosition(0.75);
+        }
+        else {
+            drive.jaws.setPosition(1);
+        }
+        if (gamepad2.dpad_down){
+            try {
+                drive.jawsDown();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
-        telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
-        telemetry.addData("Acceleration", drive.getAcceleration()[0]);
-        telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " +  String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
 
+     /*   if (gamepad2.dpad_down)
+        {
+            drive.sensordown();
+        }
+        if (gamepad2.dpad_up)
+        {
+            drive.sensorup();
+        }*/
+        //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
+        telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " + String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
+        telemetry.addData("position", drive.jaws.getPosition());
+//        telemetry.addData("NormalColor", (drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0]);
     }
 
 }
+
 
 
