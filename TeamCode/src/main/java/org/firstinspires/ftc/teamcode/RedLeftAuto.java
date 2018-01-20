@@ -135,6 +135,10 @@ public class RedLeftAuto extends LinearOpMode {
         sleep(900);
         drive.setBoth(-.5,-.5);
         sleep(800);
+
+
+        drive.gyroTurn(90);
+        sleep(100);
         drive.gyroTurn(180);
         sleep(500);
         drive.BodGot();

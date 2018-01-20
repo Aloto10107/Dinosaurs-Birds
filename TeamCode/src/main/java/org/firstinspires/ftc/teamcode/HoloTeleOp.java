@@ -42,7 +42,7 @@ public class HoloTeleOp extends OpMode {
     public void loop() {
         double leftY = gamepad1.left_stick_y*gamepad1.left_stick_y*gamepad1.left_stick_y;
         double leftX = gamepad1.left_stick_x*gamepad1.left_stick_x*gamepad1.left_stick_x;
-        double rightX = drive.powerScale * (gamepad1.right_stick_x);
+        double rightX = (gamepad1.right_stick_x);
 
         if (Math.abs(gamepad1.left_stick_y) < .2) {
 
@@ -121,12 +121,6 @@ public class HoloTeleOp extends OpMode {
         }
         if (!gamepad2.y) {
             drive.skilldown();
-        }
-        if (gamepad1.a){
-            drive.powerScale = .4;
-        }
-        if (!gamepad1.a){
-            drive.powerScale = .4;
         }
         drive.jaws.setPosition(gamepad2.right_trigger);
         if (gamepad2.dpad_up){

@@ -42,7 +42,7 @@ public class basicTeleop extends OpMode {
     public void loop() {
         double leftY = gamepad1.left_stick_y*gamepad1.left_stick_y*gamepad1.left_stick_y;
         double leftX = gamepad1.left_stick_x*gamepad1.left_stick_x*gamepad1.left_stick_x;
-        double rightX = drive.powerScale * (gamepad1.right_stick_x);
+        double rightX = 0.5 * (gamepad1.right_stick_x);
 
         if (Math.abs(gamepad1.left_stick_y) < .2) {
 
@@ -115,12 +115,12 @@ public class basicTeleop extends OpMode {
         if (!gamepad2.y) {
             drive.skilldown();
         }
-        if (gamepad1.a){
-            drive.jaws.setPosition(.04);
+        if (gamepad2.a || gamepad2.right_bumper){
+            drive.jaws.setPosition(.03);
         }
         if (gamepad2.b){
             drive.jaws.setPosition(.08);        }
-        if (!gamepad2.b && !gamepad2.a) {
+        if (!gamepad2.b && !gamepad2.a && !gamepad2.right_bumper) {
             drive.jaws.setPosition(0);
         }
 

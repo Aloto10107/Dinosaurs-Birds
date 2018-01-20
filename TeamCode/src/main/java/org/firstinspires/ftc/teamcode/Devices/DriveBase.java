@@ -68,7 +68,6 @@ public class DriveBase {
     float deltaTime = 0;
     float preTime = 0;
     float PDout = 0;
-    public double powerScale;
     VuforiaLocalizer vuforia;
 
     public DriveBase(HardwareMap hardwareMap) {
@@ -251,7 +250,7 @@ public class DriveBase {
     public void skillup(){
         //double newPos = skill_crane.getPosition() - 0.2;
         //skill_crane.setPosition(newPos);
-        skill_crane.setPosition(.5);
+        skill_crane.setPosition(.7);
     }
     public void skilldown(){
         //double newPos = skill_crane.getPosition() + 0.2;
