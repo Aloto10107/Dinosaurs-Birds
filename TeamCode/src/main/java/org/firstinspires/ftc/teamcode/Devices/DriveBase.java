@@ -42,8 +42,8 @@ import java.util.concurrent.TimeUnit;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 public class DriveBase {
-    private DcMotor[] leftMotors;
-    private DcMotor[] rightMotors;
+    public DcMotor[] leftMotors;
+    public DcMotor[] rightMotors;
     private DcMotor lift;
     private DcMotor sidearm;
     private Servo[] pinchies;
@@ -77,8 +77,8 @@ public class DriveBase {
 
         leftMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         leftMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
-//        leftMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        leftMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         rightMotors = new DcMotor[2];
         rightMotors[0] = hardwareMap.dcMotor.get("motor_fr");
@@ -86,8 +86,8 @@ public class DriveBase {
 
         rightMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
-//        rightMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         pinchies = new Servo[4];
@@ -179,6 +179,16 @@ public class DriveBase {
 
         rightMotors[1].setPower(convertedPower);
     }
+    public void pickuprelic() throws InterruptedException {
+
+        skill_crane.setPosition(0.7);
+        sleep(100);
+        jaws.setPosition(0.03);
+        sleep(100);
+        sidearm.setPower(-.1);
+        sleep(100);
+        sidearm.setPower(0);
+    }
     public synchronized void setLift(double power)
     {
         double convertedPower = (power);
@@ -195,8 +205,8 @@ public class DriveBase {
     {
         pinchies[0].setPosition(1);
         pinchies[1].setPosition(0);
-
     }
+
     public void bluepinch()
     {
         pinchies[2].setPosition(0);

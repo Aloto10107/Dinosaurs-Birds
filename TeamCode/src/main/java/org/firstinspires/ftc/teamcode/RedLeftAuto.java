@@ -136,7 +136,7 @@ public class RedLeftAuto extends LinearOpMode {
         drive.setBoth(-.5,-.5);
         sleep(800);
 
-
+/*
         drive.gyroTurn(90);
         sleep(100);
         drive.gyroTurn(180);
@@ -155,7 +155,7 @@ public class RedLeftAuto extends LinearOpMode {
         drive.redpinch();
         drive.gyroTurn(0);
         drive.setBoth(.5,.5);
-        sleep(1500);
+        sleep(1500);*/
 
 
 

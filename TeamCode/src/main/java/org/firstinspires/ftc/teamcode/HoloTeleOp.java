@@ -40,8 +40,8 @@ public class HoloTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        double leftY = gamepad1.left_stick_y*gamepad1.left_stick_y*gamepad1.left_stick_y;
-        double leftX = gamepad1.left_stick_x*gamepad1.left_stick_x*gamepad1.left_stick_x;
+        double leftY = gamepad1.left_stick_y * gamepad1.left_stick_y * gamepad1.left_stick_y;
+        double leftX = gamepad1.left_stick_x * gamepad1.left_stick_x * gamepad1.left_stick_x;
         double rightX = (gamepad1.right_stick_x);
 
         if (Math.abs(gamepad1.left_stick_y) < .2) {
@@ -106,7 +106,7 @@ public class HoloTeleOp extends OpMode {
         if (gamepad2.left_trigger != 1) {
             drive.BodGot();
         }
-        if (gamepad2.x){
+        if (gamepad2.x) {
             drive.ReverseBodGot();
         }
         if (gamepad2.b) {
@@ -122,23 +122,31 @@ public class HoloTeleOp extends OpMode {
         if (!gamepad2.y) {
             drive.skilldown();
         }
-        drive.jaws.setPosition(gamepad2.right_trigger);
-        if (gamepad2.dpad_up){
-            drive.jaws.setPosition(0.5);
+        if (gamepad2.a || gamepad2.right_bumper){
+            drive.jaws.setPosition(.03);
         }
-        else if (gamepad2.dpad_right){
-            drive.jaws.setPosition(0.75);
+        if (gamepad2.b){
+            drive.jaws.setPosition(.08);        }
+        if (!gamepad2.b && !gamepad2.a && !gamepad2.right_bumper) {
+            drive.jaws.setPosition(0);
         }
-        else {
-            drive.jaws.setPosition(1);
-        }
-        if (gamepad2.dpad_down){
-            try {
-                drive.jawsDown();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+
+//        drive.jaws.setPosition(gamepad2.right_trigger);
+//        if (gamepad2.dpad_up) {
+//            drive.jaws.setPosition(0.5);
+//        } else if (gamepad2.dpad_right) {
+//            drive.jaws.setPosition(0.75);
+//        } else {
+//            drive.jaws.setPosition(1);
+//        }
+//        if (gamepad2.dpad_down) {
+//            try {
+//                drive.jawsDown();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
 
 
      /*   if (gamepad2.dpad_down)
@@ -152,6 +160,10 @@ public class HoloTeleOp extends OpMode {
         //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
         telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " + String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
         telemetry.addData("position", drive.jaws.getPosition());
+        telemetry.addData("fl", drive.leftMotors[0].getCurrentPosition());
+        telemetry.addData("bl", drive.leftMotors[1].getCurrentPosition());
+        telemetry.addData("fr", drive.rightMotors[0].getCurrentPosition());
+        telemetry.addData("br", drive.rightMotors[1].getCurrentPosition());
 //        telemetry.addData("NormalColor", (drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0]);
     }
 

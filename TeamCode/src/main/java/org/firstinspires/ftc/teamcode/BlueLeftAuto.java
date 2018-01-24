@@ -86,7 +86,7 @@ public class BlueLeftAuto extends LinearOpMode {
         drive.upanddown.setPosition(1);
         Thread.sleep(1000);
 //        drive.turn(-.5,500);
-//        drive.gyroTurn(0); //get fukd all of yoo try to find what i messed up
+//        drive.gyro;Turn(0); //get fukd all of yoo try to find what i messed up
         while (true)
         {
             drive.cry();
@@ -105,7 +105,7 @@ public class BlueLeftAuto extends LinearOpMode {
                     Distance = 650;
                 }
                 drive.setBoth(.25,.25);
-                sleep(2500);
+                sleep(2300);
                 drive.setBoth(0,0);
                 drive.setBoth(.5,.5);
                 sleep(1000);

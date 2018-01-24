@@ -136,6 +136,30 @@ public class BlueRightAuto extends LinearOpMode {
         drive.setBoth(-.5,-.5);//end in zone
         sleep(800);
         drive.setBoth(0,0);
+        sleep(200);
+
+/*
+        drive.gyroTurn(0);
+        sleep(100);
+        drive.gyroTurn(-90);
+        sleep(500);
+        drive.BodGot();
+        sleep(100);
+        drive.setLift(.5);
+        sleep(1000);
+        drive.setLift(0);
+        sleep(100);
+        drive.setBoth(.5,5);
+        sleep(2500);
+        drive.setBoth(-.5,-.5);
+        sleep(1000);
+        drive.bluepinch();
+        drive.redpinch();
+        drive.gyroTurn(90);
+        drive.setBoth(.5,.5);
+        sleep(1500);
+        drive.setBoth(0,0);
+*/
 
 
         telemetry.addData("error", String.valueOf(drive.Gerror));
