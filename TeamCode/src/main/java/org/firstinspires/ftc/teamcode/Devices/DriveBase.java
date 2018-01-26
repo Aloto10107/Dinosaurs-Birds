@@ -79,6 +79,8 @@ public class DriveBase {
         leftMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
         leftMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         rightMotors = new DcMotor[2];
         rightMotors[0] = hardwareMap.dcMotor.get("motor_fr");
@@ -88,7 +90,8 @@ public class DriveBase {
         rightMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
         rightMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        rightMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         pinchies = new Servo[4];
         pinchies[0] = hardwareMap.servo.get("top_right");
@@ -179,7 +182,7 @@ public class DriveBase {
 
         rightMotors[1].setPower(convertedPower);
     }
-    public void pickuprelic() throws InterruptedException {
+    public void standyuppything() throws InterruptedException {
 
         skill_crane.setPosition(0.7);
         sleep(100);
@@ -397,7 +400,6 @@ public class DriveBase {
     {
         tears++;
     }
-
 
 }
 

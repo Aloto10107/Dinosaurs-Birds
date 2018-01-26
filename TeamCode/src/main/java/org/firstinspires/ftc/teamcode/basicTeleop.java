@@ -40,12 +40,13 @@ public class basicTeleop extends OpMode {
 
     @Override
     public void loop() {
-        double leftY = (gamepad1.left_stick_y);
+        double leftY = gamepad1.left_stick_y;
         double leftX = gamepad1.left_stick_x;
         double rightX = 0.5 * (gamepad1.right_stick_x);
 
         leftY = Math.pow(leftY, 3);
         leftX = Math.pow(leftX, 3);
+        rightX = Math.pow(rightX, 3);
 
 
         if (Math.abs(gamepad1.left_stick_y) < .2) {
@@ -110,7 +111,7 @@ public class basicTeleop extends OpMode {
         if (gamepad2.left_trigger != 1) {
             drive.BodGot();
         }
-        if (gamepad2.x){
+        if (gamepad2.x) {
             drive.ReverseBodGot();
         }
         if (gamepad2.y) {
@@ -119,33 +120,27 @@ public class basicTeleop extends OpMode {
         if (!gamepad2.y) {
             drive.skilldown();
         }
-        if (gamepad2.a || gamepad2.right_bumper){
+        if (gamepad2.a || gamepad2.right_bumper) {
             drive.jaws.setPosition(.03);
         }
-        if (gamepad2.b){
-            drive.jaws.setPosition(.08);        }
+        if (gamepad2.b) {
+            drive.jaws.setPosition(.08);
+        }
         if (!gamepad2.b && !gamepad2.a && !gamepad2.right_bumper) {
             drive.jaws.setPosition(0);
+
         }
 
 
-
-
-     /*   if (gamepad2.dpad_down)
-        {
-            drive.sensordown();
+        if (gamepad2.a) {
+            try {
+                drive.standyuppything();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        if (gamepad2.dpad_up)
-        {
-            drive.sensorup();
-        }*/
-            //telemetry.addData("Heading:", String.valueOf(drive.getHeading()));
-            telemetry.addData("colors:", String.valueOf(drive.getColor()[0]) + " " + String.valueOf(drive.getColor()[1]) + " " + String.valueOf(drive.getColor()[2]));
-            telemetry.addData("position", drive.jaws.getPosition());
-//        telemetry.addData("NormalColor", (drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0]);
-        }
+
 
     }
 
-
-
+}

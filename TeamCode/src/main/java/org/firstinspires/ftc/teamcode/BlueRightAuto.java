@@ -56,8 +56,14 @@ public class BlueRightAuto extends LinearOpMode {
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTrackables.activate();
 
-        telemetry.addData(">", "Press Play to start");
-        telemetry.update();
+        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
+        VectorF trans = pose.getTranslation();
+
+        while(!isStarted()){
+            telemetry.addData("distance", trans.get(0));
+            telemetry.addData(">", "Press Play to start");
+            telemetry.update();
+        }
         waitForStart();
 
         drive.bluepinch();

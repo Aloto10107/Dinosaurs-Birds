@@ -56,8 +56,14 @@ public class RedLeftAuto extends LinearOpMode {
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTrackables.activate();
 
-        telemetry.addData(">", "Press Play to start");
-        telemetry.update();
+        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
+        VectorF trans = pose.getTranslation();
+
+        while(!isStarted()){
+            telemetry.addData("distance", trans.get(0));
+            telemetry.addData(">", "Press Play to start");
+            telemetry.update();
+        }
         waitForStart();
 
         drive.bluepinch();
@@ -136,7 +142,7 @@ public class RedLeftAuto extends LinearOpMode {
         drive.setBoth(-.5,-.5);
         sleep(800);
 
-/*
+
         drive.gyroTurn(90);
         sleep(100);
         drive.gyroTurn(180);
@@ -155,7 +161,7 @@ public class RedLeftAuto extends LinearOpMode {
         drive.redpinch();
         drive.gyroTurn(0);
         drive.setBoth(.5,.5);
-        sleep(1500);*/
+        sleep(1500);
 
 
 

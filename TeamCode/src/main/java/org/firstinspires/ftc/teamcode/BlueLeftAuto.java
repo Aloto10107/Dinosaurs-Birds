@@ -54,9 +54,14 @@ public class BlueLeftAuto extends LinearOpMode {
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTrackables.activate();
+        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
+        VectorF trans = pose.getTranslation();
 
-        telemetry.addData(">", "Press Play to start");
-        telemetry.update();
+        while(!isStarted()){
+            telemetry.addData("distance", trans.get(0));
+            telemetry.addData(">", "Press Play to start");
+            telemetry.update();
+        }
         waitForStart();
 
         drive.bluepinch();
