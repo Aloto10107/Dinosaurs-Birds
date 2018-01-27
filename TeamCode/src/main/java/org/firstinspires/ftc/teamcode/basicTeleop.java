@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.Devices.DriveBase;
 public class basicTeleop extends OpMode {
 
     public DriveBase drive;
-    private boolean preX;
+    private boolean preLeftBumper = false;
 
     @Override
     public void init() {
@@ -46,7 +46,7 @@ public class basicTeleop extends OpMode {
 
         leftY = Math.pow(leftY, 3);
         leftX = Math.pow(leftX, 3);
-        rightX = Math.pow(rightX, 3);
+        //rightX = Math.pow(rightX, 3);
 
 
         if (Math.abs(gamepad1.left_stick_y) < .2) {
@@ -106,10 +106,10 @@ public class basicTeleop extends OpMode {
             drive.bluenotPinch();
         }
         if (gamepad2.left_trigger == 1) {
-            drive.NoBodGot();
+            drive.BodGot();
         }
         if (gamepad2.left_trigger != 1) {
-            drive.BodGot();
+            drive.NoBodGot();
         }
         if (gamepad2.x) {
             drive.ReverseBodGot();
@@ -120,18 +120,37 @@ public class basicTeleop extends OpMode {
         if (!gamepad2.y) {
             drive.skilldown();
         }
-        if (gamepad2.a || gamepad2.right_bumper) {
-            drive.jaws.setPosition(.03);
+        if (gamepad2.left_bumper){
+            preLeftBumper = false;
+        }
+        if (!gamepad2.left_bumper){
+            preLeftBumper = true;
         }
         if (gamepad2.b) {
             drive.jaws.setPosition(.08);
         }
-        if (!gamepad2.b && !gamepad2.a && !gamepad2.right_bumper) {
+//        if(gamepad2.left_bumper && !preLeftBumper){
+//            drive.jaws.setPosition(0.125);
+//            preLeftBumper = false;
+//        }
+        if (!gamepad2.b) {
             drive.jaws.setPosition(0);
-
+        }
+        if (gamepad2.right_bumper){
+            try {
+                drive.pickyuppything();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
-
+        if (drive.getDistance() <= 100){
+            drive.flag.setPosition(1);
+        }
+        else {
+            drive.flag.setPosition(.5);
+        }
+//there are 26 lightning bolts on the robot
         if (gamepad2.a) {
             try {
                 drive.standyuppything();
@@ -139,7 +158,8 @@ public class basicTeleop extends OpMode {
                 e.printStackTrace();
             }
         }
-
+        telemetry.addData("distace", drive.getDistance());
+        telemetry.update();
 
     }
 

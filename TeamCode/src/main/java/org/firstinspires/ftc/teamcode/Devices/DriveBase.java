@@ -51,6 +51,7 @@ public class DriveBase {
     public Servo skill_crane;
     public Servo jaws;
     public Servo upanddown;
+    public Servo flag;
     public BNO055IMU imu;
     private Orientation angles;
     private Acceleration acceleration;
@@ -77,8 +78,8 @@ public class DriveBase {
 
         leftMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         leftMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
-        leftMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //leftMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //leftMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -88,8 +89,8 @@ public class DriveBase {
 
         rightMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
-        rightMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -103,7 +104,7 @@ public class DriveBase {
         BodGot[0] = hardwareMap.dcMotor.get("InLeft");
         BodGot[1] = hardwareMap.dcMotor.get("InRight");
 
-        BodGot[0].setDirection(DcMotorSimple.Direction.REVERSE);
+        BodGot[0].setDirection(DcMotorSimple.Direction.FORWARD);
         BodGot[1].setDirection(DcMotorSimple.Direction.REVERSE);
 
         lift = hardwareMap.dcMotor.get("PinchArm");
@@ -114,8 +115,9 @@ public class DriveBase {
         skill_crane = hardwareMap.servo.get("skill_crane");
         jaws = hardwareMap.servo.get("jaws");
         upanddown = hardwareMap.servo.get("upanddown");
+        flag = hardwareMap.servo.get("flag");
         color = hardwareMap.colorSensor.get("color");
-        //distance = hardwareMap.get(DistanceSensor.class, "color");
+        distance = hardwareMap.get(DistanceSensor.class, "range");
     }
     // Sets power of the two left motors
 
@@ -186,11 +188,18 @@ public class DriveBase {
 
         skill_crane.setPosition(0.7);
         sleep(100);
-        jaws.setPosition(0.03);
+        jaws.setPosition(0.04);
         sleep(100);
         sidearm.setPower(-.1);
         sleep(100);
         sidearm.setPower(0);
+    }
+    public void pickyuppything() throws InterruptedException{
+        skill_crane.setPosition(0.7);
+        sleep(100);
+        jaws.setPosition(0.07);
+        sleep(100);
+        skill_crane.setPosition(0);
     }
     public synchronized void setLift(double power)
     {
@@ -226,7 +235,7 @@ public class DriveBase {
         pinchies[2].setPosition(.4);
         pinchies[3].setPosition(.6);
     }
-    public void flip()
+    /*public void flip()
     {
         if (SpinPos == .89){
             pinchies[4].setPosition(.2);
@@ -236,8 +245,8 @@ public class DriveBase {
             pinchies[4].setPosition(.8);
             SpinPos = .89;
         }
-    }
-    public void NoBodGot(){
+    }*/
+    public void BodGot(){
         BodGot[0].setPower(-1);
         BodGot[1].setPower(1);
     }
@@ -245,7 +254,7 @@ public class DriveBase {
         BodGot[0].setPower(1);
         BodGot[1].setPower(-1);
     }
-    public void BodGot(){
+    public void NoBodGot(){
         BodGot[0].setPower(0);
         BodGot[1].setPower(0);
     }
@@ -286,7 +295,7 @@ public class DriveBase {
         //PLZ dont touch *touch*
         angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return angles.firstAngle;
-        }
+        }//there are 26 lightning bolts on the robot
     public double[] getAcceleration(){
 
         acceleration = imu.getAcceleration();
@@ -297,7 +306,7 @@ public class DriveBase {
     public void drive(float angle, long time, double power){
         double[] MP;
         MP = new double[4];
-        gyroTurn(angle);
+        //gyroTurn(angle);
         ElapsedTime runTime = new ElapsedTime();
         while (runTime.time(TimeUnit.MILLISECONDS) < time) {
             float theta = angle;
@@ -313,26 +322,25 @@ public class DriveBase {
     }
     public void gyroBadTurn(float degrees){
 
-        float Kp = (float) 0.1;
-        float Kd = (float) 0.0;
+        float Kp = (float) 0.008;
+        float Kd = (float) 0.0001;
         while (true){
-            deltaTime = System.nanoTime() - preTime;
+            currentTime = System.nanoTime();
+            deltaTime = currentTime - preTime;
             Gerror = degrees - getHeading();
-            deltaError = preError - Gerror;
-            PDout = (Kp * Gerror) + (Kd * (deltaError/deltaTime));
-            preTime = System.nanoTime();
-            preError = Gerror;
+            PDout = (Kp * Gerror) + (Kd * (Gerror/deltaTime));
             setMotor_bl(-PDout);
             setMotor_fl(-PDout);
             setMotor_br(PDout);
             setMotor_fr(PDout);
-//            if (Gerror <= 4) {
-//                setMotor_bl(0);
-//                setMotor_br(0);
-//                setMotor_fr(0);
-//                setMotor_fl(0);
-//                break;
-//            }
+            preTime = currentTime;
+            if (Gerror <= 5) {
+                setMotor_bl(0);
+                setMotor_br(0);
+                setMotor_fr(0);
+                setMotor_fl(0);
+                break;
+            }
         }
     }
 
@@ -386,7 +394,10 @@ public class DriveBase {
                     break;
                 }
             }
-
+//there are 26 lightning bolts on the robot
+    }
+    public double getDistance(){
+        return distance.getDistance(DistanceUnit.MM);
     }
     public int[] getColor() {
 

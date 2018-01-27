@@ -29,6 +29,7 @@ public class RedRightAuto extends LinearOpMode {
     VuforiaLocalizer vuforia;
     DriveBase drive;
     Orientation angles;
+    VectorF trans;
     public double Yerror;
     public double Xerror;
     public double Xtarget;
@@ -54,15 +55,19 @@ public class RedRightAuto extends LinearOpMode {
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         VuforiaTrackable relicTemplate = relicTrackables.get(0);
         relicTrackables.activate();
-
         OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
-        VectorF trans = pose.getTranslation();
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+/*        if ((pose != null) && vuMark != RelicRecoveryVuMark.UNKNOWN){
+            trans = pose.getTranslation();
+        }
 
         while(!isStarted()){
             telemetry.addData("distance", trans.get(0));
             telemetry.addData(">", "Press Play to start");
             telemetry.update();
-        }
+        }*/
+        telemetry.addData(">", "Press Play to start lol");
         waitForStart();
 
         drive.bluepinch();
@@ -98,7 +103,7 @@ public class RedRightAuto extends LinearOpMode {
             drive.cry();
             telemetry.addData("Tears", drive.tears);
             telemetry.update();
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 100000)
             {
                 if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){

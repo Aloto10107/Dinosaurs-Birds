@@ -117,5 +117,6 @@ public class ConceptRegisterOpModes
         manager.register("RedLeftAuto", RedLeftAuto.class);
         manager.register("BlueRightAuto", BlueRightAuto.class);
         manager.register("BlueLeftAuto", BlueLeftAuto.class);
+        manager.register("TestAuto", TestAuto.class);
     }
 }
