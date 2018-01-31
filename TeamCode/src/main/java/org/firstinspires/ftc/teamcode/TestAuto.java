@@ -28,8 +28,14 @@ public class TestAuto extends LinearOpMode{
 //        drive.setBoth(0,0);
 
         //drive.drive(0, 2000, 0.5);
-        drive.gyroBadTurn(180);
+        //drive.gyroBadTurn(180);
+/*
+  drive.FrontandBack(1, 500);
+        drive.SidetoSide(1, 500);
+        drive.FrontandBack(-1, 500);
+        drive. SidetoSide(-1, 500)*/;
 
+        drive.FrontandBack(1, 1500);
     }
 
 }

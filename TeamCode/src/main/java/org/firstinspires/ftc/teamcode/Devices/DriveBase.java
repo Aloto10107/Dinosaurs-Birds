@@ -63,6 +63,7 @@ public class DriveBase {
     public float deltaError;
     public float Derror;
     public float currentTime;
+    public float currentError;
     public float preError;
     public double SpinPos = 0;
     public float tears = 0;
@@ -78,8 +79,8 @@ public class DriveBase {
 
         leftMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         leftMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
-        //leftMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //leftMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -89,8 +90,8 @@ public class DriveBase {
 
         rightMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
-        //rightMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rightMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -323,17 +324,13 @@ public class DriveBase {
     public void gyroBadTurn(float degrees){
 
         float Kp = (float) 0.008;
-        float Kd = (float) 0.0001;
-        while (true){
-            currentTime = System.nanoTime();
-            deltaTime = currentTime - preTime;
+        while (Gerror <= 5){
             Gerror = degrees - getHeading();
-            PDout = (Kp * Gerror) + (Kd * (Gerror/deltaTime));
+            PDout = Kp * Gerror;
             setMotor_bl(-PDout);
             setMotor_fl(-PDout);
             setMotor_br(PDout);
             setMotor_fr(PDout);
-            preTime = currentTime;
             if (Gerror <= 5) {
                 setMotor_bl(0);
                 setMotor_br(0);
@@ -343,7 +340,25 @@ public class DriveBase {
             }
         }
     }
-
+    public void FrontandBack (float power, long time) {
+        ElapsedTime WaitTime = new ElapsedTime();
+        while (WaitTime.time(TimeUnit.MILLISECONDS) < time){
+            setMotor_bl(power);
+            setMotor_fl(power);
+            setMotor_fr(power);
+            setMotor_br(power);
+        }
+    }
+    public void SidetoSide (float power, long time) {
+        ElapsedTime WaitTime = new ElapsedTime();
+        while (WaitTime.time(TimeUnit.MILLISECONDS) < time){
+            setMotor_bl(-power);
+            setMotor_fl(power);
+            setMotor_fr(-power);
+            setMotor_br(power);
+            //going right is positive
+        }
+    }
     public void gyroTurn(float degrees){
 
         float Kp = (float) 0.008;

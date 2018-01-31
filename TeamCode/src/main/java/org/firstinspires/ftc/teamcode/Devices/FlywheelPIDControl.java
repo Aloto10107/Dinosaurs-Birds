@@ -218,7 +218,7 @@ public class FlywheelPIDControl
         averageError = averageError*.8 + .2*error;
     }
 
-    private double motorPIDController( double measurement, double deltaTime)
+    public double motorPIDController( double measurement, double deltaTime)
     {
 
         double error      = setPoint - measurement;
