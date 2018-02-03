@@ -67,7 +67,42 @@ public class BlueRightAuto extends LinearOpMode {
             telemetry.addData(">", "Press Play to start");
             telemetry.update();
         }*/
-        telemetry.addData(">", "Press Play to start lol");
+        telemetry.addData(">","" +
+                "                 .eeeeeeeee\n" +
+                "                .$$$$$$$$P\"\n" +
+                "               .$$$$$$$$P\n" +
+                "              z$$$$$$$$P\n" +
+                "             z$$$$$$$$\"\n" +
+                "            z$$$$$$$$\"\n" +
+                "           d$$$$$$$$\"\n" +
+                "          d$$$$$$$$\"\n" +
+                "        .d$$$$$$$P\n" +
+                "       .$$$$$$$$P\n" +
+                "      .$$$$$$$$$.........\n" +
+                "     .$$$$$$$$$$$$$$$$$$\"\n" +
+                "    z$$$$$$$$$$$$$$$$$P\"\n" +
+                "   -**********$$$$$$$P\n" +
+                "             d$$$$$$\"\n" +
+                "           .d$$$$$$\"\n" +
+                "          .$$$$$$P\"\n" +
+                "         z$$$$$$P\n" +
+                "        d$$$$$$\"\n" +
+                "      .d$$$$$$\"\n" +
+                "     .$$$$$$$\"\n" +
+                "    z$$$$$$$beeeeee\n" +
+                "   d$$$$$$$$$$$$$*\n" +
+                "  ^\"\"\"\"\"\"\"\"$$$$$\"\n" +
+                "          d$$$*\n" +
+                "         d$$$\"\n" +
+                "        d$$*\n" +
+                "       d$P\"\n" +
+                "     .$$\"\n" +
+                "    .$P\"\n" +
+                "   .$\"\n" +
+                "  .P\"\n" +
+                " .\"     Gilo94'\n" +
+                "/\"");
+        telemetry.update();
         waitForStart();
 
         drive.bluepinch();
@@ -106,7 +141,7 @@ public class BlueRightAuto extends LinearOpMode {
             if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 100000)
             {
                 if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
-                    Distance = 1400;
+                    Distance = 1450;
                 }
                 if(vuMark == RelicRecoveryVuMark.CENTER){
                     Distance = 850;

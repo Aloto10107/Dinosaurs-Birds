@@ -29,7 +29,8 @@ import org.firstinspires.ftc.teamcode.Devices.DriveBase;
 public class basicTeleop extends OpMode {
 
     public DriveBase drive;
-    private boolean preLeftBumper = false;
+    private boolean preLeftBumper = true;
+    private boolean preB = true;
 
     @Override
     public void init() {
@@ -94,7 +95,7 @@ public class basicTeleop extends OpMode {
         }
 
         drive.setLift(0.9 * (gamepad2.left_stick_y));
-        drive.setSidearm(0.9 * (gamepad2.right_stick_y));
+        drive.setSidearm(0.9 * (gamepad2.right_stick_x));
 
 
         if (gamepad2.right_trigger == 1) {
@@ -120,22 +121,38 @@ public class basicTeleop extends OpMode {
         if (!gamepad2.y) {
             drive.skilldown();
         }
-        if (gamepad2.left_bumper){
-            preLeftBumper = false;
-        }
-        if (!gamepad2.left_bumper){
+        /*if (gamepad2.left_bumper && !preLeftBumper){
             preLeftBumper = true;
+        }
+        else if (!gamepad2.left_bumper){
+            preLeftBumper = false;
         }
         if (gamepad2.b) {
             drive.jaws.setPosition(.08);
         }
-//        if(gamepad2.left_bumper && !preLeftBumper){
-//            drive.jaws.setPosition(0.125);
-//            preLeftBumper = false;
-//        }
-        if (!gamepad2.b) {
-            drive.jaws.setPosition(0);
+        if(gamepad2.left_bumper && preLeftBumper){
+            drive.jaws.setPosition(0.125);
+            preLeftBumper = false;
+        }*/
+
+        if (gamepad2.left_bumper && !preLeftBumper) {
+
+            if (drive.jaws.getPosition() != .125){
+                drive.jaws.setPosition(.125);
+            }
+            else if (drive.jaws.getPosition() == .125) {
+                drive.jaws.setPosition(0.02);
+            }
         }
+        if (gamepad2.b && !preB){
+            if(drive.jaws.getPosition() != 0.08){
+                drive.jaws.setPosition(0.08);
+            } else if (drive.jaws.getPosition() == 0.08) {
+                drive.jaws.setPosition(0.02);
+            }
+        }
+        preB = gamepad2.b;
+        preLeftBumper = gamepad2.left_bumper;
         if (gamepad2.right_bumper){
             try {
                 drive.pickyuppything();

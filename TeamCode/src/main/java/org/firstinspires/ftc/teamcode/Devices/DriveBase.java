@@ -79,8 +79,8 @@ public class DriveBase {
 
         leftMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         leftMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
-        leftMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //leftMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //leftMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -90,8 +90,8 @@ public class DriveBase {
 
         rightMotors[0].setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotors[1].setDirection(DcMotorSimple.Direction.REVERSE);
-        rightMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightMotors[0].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightMotors[1].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotors[0].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotors[1].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -189,7 +189,7 @@ public class DriveBase {
 
         skill_crane.setPosition(0.7);
         sleep(100);
-        jaws.setPosition(0.04);
+        jaws.setPosition(0.05);
         sleep(100);
         sidearm.setPower(-.1);
         sleep(100);
@@ -340,22 +340,22 @@ public class DriveBase {
             }
         }
     }
-    public void FrontandBack (float power, long time) {
+    public void FrontandBack (double power, long time, float angle) {
         ElapsedTime WaitTime = new ElapsedTime();
         while (WaitTime.time(TimeUnit.MILLISECONDS) < time){
-            setMotor_bl(power);
-            setMotor_fl(power);
-            setMotor_fr(power);
-            setMotor_br(power);
+            setMotor_bl(power - PDoutput(angle));
+            setMotor_fl(power - PDoutput(angle));
+            setMotor_fr(power + PDoutput(angle));
+            setMotor_br(power + PDoutput(angle));
         }
     }
-    public void SidetoSide (float power, long time) {
+    public void SidetoSide (double power, long time, float angle) {
         ElapsedTime WaitTime = new ElapsedTime();
         while (WaitTime.time(TimeUnit.MILLISECONDS) < time){
-            setMotor_bl(-power);
-            setMotor_fl(power);
-            setMotor_fr(-power);
-            setMotor_br(power);
+            setMotor_bl(-power - PDoutput(angle));
+            setMotor_fl(power - PDoutput(angle));
+            setMotor_fr(-power + PDoutput(angle));
+            setMotor_br(power + PDoutput(angle));
             //going right is positive
         }
     }
@@ -372,7 +372,7 @@ public class DriveBase {
             setMotor_br(PDout);
             setMotor_fr(PDout);
             preTime = currentTime;
-            if (Gerror <= 5) {
+            if (Math.abs(Gerror) <= 5) {
                     setMotor_bl(0);
                     setMotor_br(0);
                     setMotor_fr(0);

@@ -21,6 +21,42 @@ public class TestAuto extends LinearOpMode{
 
         drive = new DriveBase(hardwareMap);
         drive.imuINIT();
+        telemetry.addData(">","" +
+                "                 .eeeeeeeee\n" +
+                "                .$$$$$$$$P\"\n" +
+                "               .$$$$$$$$P\n" +
+                "              z$$$$$$$$P\n" +
+                "             z$$$$$$$$\"\n" +
+                "            z$$$$$$$$\"\n" +
+                "           d$$$$$$$$\"\n" +
+                "          d$$$$$$$$\"\n" +
+                "        .d$$$$$$$P\n" +
+                "       .$$$$$$$$P\n" +
+                "      .$$$$$$$$$.........\n" +
+                "     .$$$$$$$$$$$$$$$$$$\"\n" +
+                "    z$$$$$$$$$$$$$$$$$P\"\n" +
+                "   -**********$$$$$$$P\n" +
+                "             d$$$$$$\"\n" +
+                "           .d$$$$$$\"\n" +
+                "          .$$$$$$P\"\n" +
+                "         z$$$$$$P\n" +
+                "        d$$$$$$\"\n" +
+                "      .d$$$$$$\"\n" +
+                "     .$$$$$$$\"\n" +
+                "    z$$$$$$$beeeeee\n" +
+                "   d$$$$$$$$$$$$$*\n" +
+                "  ^\"\"\"\"\"\"\"\"$$$$$\"\n" +
+                "          d$$$*\n" +
+                "         d$$$\"\n" +
+                "        d$$*\n" +
+                "       d$P\"\n" +
+                "     .$$\"\n" +
+                "    .$P\"\n" +
+                "   .$\"\n" +
+                "  .P\"\n" +
+                " .\"     Gilo94'\n" +
+                "/\"");
+        telemetry.update();
         waitForStart();
 
 //        drive.setBoth(0.5, 0.5);
@@ -35,7 +71,7 @@ public class TestAuto extends LinearOpMode{
         drive.FrontandBack(-1, 500);
         drive. SidetoSide(-1, 500)*/;
 
-        drive.FrontandBack(1, 1500);
+        drive.FrontandBack(.5,6000,0);
     }
 
 }

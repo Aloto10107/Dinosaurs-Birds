@@ -67,7 +67,42 @@ public class RedRightAuto extends LinearOpMode {
             telemetry.addData(">", "Press Play to start");
             telemetry.update();
         }*/
-        telemetry.addData(">", "Press Play to start lol");
+        telemetry.addData(">","" +
+                "                 .eeeeeeeee\n" +
+                "                .$$$$$$$$P\"\n" +
+                "               .$$$$$$$$P\n" +
+                "              z$$$$$$$$P\n" +
+                "             z$$$$$$$$\"\n" +
+                "            z$$$$$$$$\"\n" +
+                "           d$$$$$$$$\"\n" +
+                "          d$$$$$$$$\"\n" +
+                "        .d$$$$$$$P\n" +
+                "       .$$$$$$$$P\n" +
+                "      .$$$$$$$$$.........\n" +
+                "     .$$$$$$$$$$$$$$$$$$\"\n" +
+                "    z$$$$$$$$$$$$$$$$$P\"\n" +
+                "   -**********$$$$$$$P\n" +
+                "             d$$$$$$\"\n" +
+                "           .d$$$$$$\"\n" +
+                "          .$$$$$$P\"\n" +
+                "         z$$$$$$P\n" +
+                "        d$$$$$$\"\n" +
+                "      .d$$$$$$\"\n" +
+                "     .$$$$$$$\"\n" +
+                "    z$$$$$$$beeeeee\n" +
+                "   d$$$$$$$$$$$$$*\n" +
+                "  ^\"\"\"\"\"\"\"\"$$$$$\"\n" +
+                "          d$$$*\n" +
+                "         d$$$\"\n" +
+                "        d$$*\n" +
+                "       d$P\"\n" +
+                "     .$$\"\n" +
+                "    .$P\"\n" +
+                "   .$\"\n" +
+                "  .P\"\n" +
+                " .\"     Gilo94'\n" +
+                "/\"");
+        telemetry.update();
         waitForStart();
 
         drive.bluepinch();
@@ -110,10 +145,10 @@ public class RedRightAuto extends LinearOpMode {
                     Distance = 650;
                 }
                 if(vuMark == RelicRecoveryVuMark.CENTER){
-                    Distance = 1300;
+                    Distance = 1250;
                 }
                 if(vuMark == RelicRecoveryVuMark.LEFT){
-                    Distance = 2030;
+                    Distance = 2000;
                 }
                 drive.setBoth(-.25,-.25);
                 sleep(2500);

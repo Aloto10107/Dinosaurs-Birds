@@ -68,7 +68,42 @@ public class RedLeftAuto extends LinearOpMode {
                 break;
             }
         }*/
-        telemetry.addData(">", "Press Play to start lol");
+        telemetry.addData(">","" +
+                "                 .eeeeeeeee\n" +
+                "                .$$$$$$$$P\"\n" +
+                "               .$$$$$$$$P\n" +
+                "              z$$$$$$$$P\n" +
+                "             z$$$$$$$$\"\n" +
+                "            z$$$$$$$$\"\n" +
+                "           d$$$$$$$$\"\n" +
+                "          d$$$$$$$$\"\n" +
+                "        .d$$$$$$$P\n" +
+                "       .$$$$$$$$P\n" +
+                "      .$$$$$$$$$.........\n" +
+                "     .$$$$$$$$$$$$$$$$$$\"\n" +
+                "    z$$$$$$$$$$$$$$$$$P\"\n" +
+                "   -**********$$$$$$$P\n" +
+                "             d$$$$$$\"\n" +
+                "           .d$$$$$$\"\n" +
+                "          .$$$$$$P\"\n" +
+                "         z$$$$$$P\n" +
+                "        d$$$$$$\"\n" +
+                "      .d$$$$$$\"\n" +
+                "     .$$$$$$$\"\n" +
+                "    z$$$$$$$beeeeee\n" +
+                "   d$$$$$$$$$$$$$*\n" +
+                "  ^\"\"\"\"\"\"\"\"$$$$$\"\n" +
+                "          d$$$*\n" +
+                "         d$$$\"\n" +
+                "        d$$*\n" +
+                "       d$P\"\n" +
+                "     .$$\"\n" +
+                "    .$P\"\n" +
+                "   .$\"\n" +
+                "  .P\"\n" +
+                " .\"     Gilo94'\n" +
+                "/\"");
+        telemetry.update();
         waitForStart();
 
         drive.bluepinch();
@@ -107,28 +142,32 @@ public class RedLeftAuto extends LinearOpMode {
             if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 100000)
             {
                 if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
-                    Distance = 100;
+                    Distance = 150;
                 }
                 if(vuMark == RelicRecoveryVuMark.CENTER){
-                    Distance = 850;
-                }
-                if(vuMark == RelicRecoveryVuMark.LEFT){
                     Distance = 1400;
                 }
-                drive.setBoth(-.25,-.25);
+                if(vuMark == RelicRecoveryVuMark.LEFT){
+                    Distance = 1750;
+                }
+                /*drive.setBoth(-.25,-.25);
                 sleep(2500);
-                drive.setBoth(0,0);
-                drive.setBoth(-.5,-.5);
+                drive.setBoth(0,0);*/
+                drive.FrontandBack(-.25, 2500,0);
+                /*drive.setBoth(-.5,-.5);
                 sleep(750);
-                drive.setBoth(0,0);
+                drive.setBoth(0,0);*/
+                drive.FrontandBack(-.5,750,0);
                 telemetry.addData("VuMark", "%s visible", vuMark);
                 telemetry.update();
                 break;
             }
         }
-        drive.setBoth(-.5,-.5);
+        //srikar is gay
+        /*drive.setBoth(-.5,-.5);
         sleep(Distance);
-        drive.setBoth(0,0);
+        drive.setBoth(0,0);*/
+        drive.FrontandBack(-.5,Distance,0);
         drive.gyroTurn(90);
         sleep(1000);
         drive.setBoth(.5,.5);
@@ -146,27 +185,31 @@ public class RedLeftAuto extends LinearOpMode {
         sleep(900);
         drive.setBoth(-.5,-.5);
         sleep(800);
+        drive.setBoth(0,0);
 
 
-        drive.gyroTurn(90);
-        sleep(100);
-        drive.gyroTurn(180);
+        drive.gyroTurn(-90);
         sleep(500);
         drive.BodGot();
         sleep(100);
         drive.setLift(.5);
-        sleep(2000);
+        sleep(800);
         drive.setLift(0);
         sleep(100);
-        drive.setBoth(.5,5);
-        sleep(2500);
-        drive.setBoth(-.5,-.5);
-        sleep(1000);
+        drive.FrontandBack(.5,2500,-90);
+
+/*        sleep(100);
         drive.bluepinch();
         drive.redpinch();
-        drive.gyroTurn(0);
+        sleep(100);
+        drive.setBoth(-.5,-.5);
+        sleep(1000);
+        drive.setBoth(0,0);
+        sleep(100);
+        drive.gyroTurn(90);
+        sleep(100);
         drive.setBoth(.5,.5);
-        sleep(1500);
+        sleep(1500);*/
 
 
 
