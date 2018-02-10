@@ -101,7 +101,10 @@ public class BlueLeftAuto extends LinearOpMode {
                 "  .P\"\n" +
                 " .\"     Gilo94'\n" +
                 "/\"");
-        telemetry.update();
+        while (!isStarted()) {
+            telemetry.addData("sonar",drive.getSonar());
+            telemetry.update();
+        }
         waitForStart();
 
         drive.bluepinch();
@@ -112,7 +115,7 @@ public class BlueLeftAuto extends LinearOpMode {
         drive.setLift(0);
         drive.upanddown.setPosition(0);
         Thread.sleep(2500);
-        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0)
+        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0.1)
         {
             drive.turn(.5,100);
             Thread.sleep(100);
@@ -120,7 +123,7 @@ public class BlueLeftAuto extends LinearOpMode {
             Thread.sleep(100);
             drive.turn(-.5,100);
         }
-        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .6)
+        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .5)
         {
             drive.turn(-.5,100);
             Thread.sleep(100);
@@ -141,10 +144,10 @@ public class BlueLeftAuto extends LinearOpMode {
             if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 100000)
             {
                 if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
-                    Distance = 2100;
+                    Distance = 2000;
                 }
                 if(vuMark == RelicRecoveryVuMark.CENTER){
-                    Distance = 1300;
+                    Distance = 1250;
                 }
                 if(vuMark == RelicRecoveryVuMark.LEFT){
                     Distance = 650;

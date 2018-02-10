@@ -102,8 +102,10 @@ public class BlueRightAuto extends LinearOpMode {
                 "  .P\"\n" +
                 " .\"     Gilo94'\n" +
                 "/\"");
-        telemetry.update();
-        waitForStart();
+        while (!isStarted()) {
+            telemetry.addData("sonar",drive.getSonar());
+            telemetry.update();
+        }        waitForStart();
 
         drive.bluepinch();
         drive.redpinch();
@@ -113,7 +115,7 @@ public class BlueRightAuto extends LinearOpMode {
         drive.setLift(0);
         drive.upanddown.setPosition(0);
         Thread.sleep(2500);
-        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .6)
+        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .5)
         {
             drive.turn(-.5,100);
             Thread.sleep(100);
@@ -121,7 +123,7 @@ public class BlueRightAuto extends LinearOpMode {
             Thread.sleep(100);
             drive.turn(.5, 100);
         }
-        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0)
+        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0.1)
         {
             drive.turn(.5,100);
             Thread.sleep(100);
@@ -149,25 +151,29 @@ public class BlueRightAuto extends LinearOpMode {
                 if(vuMark == RelicRecoveryVuMark.LEFT){
                     Distance = 150;
                 }
-                drive.setBoth(.25,.25);
+                /*drive.setBoth(.25,.25);
                 sleep(2500);
-                drive.setBoth(0,0);
-                drive.setBoth(.5,.5);
+                drive.setBoth(0,0);*/
+                drive.FrontandBack(.25,2500,0);
+                /*drive.setBoth(.5,.5);
                 sleep(750);
-                drive.setBoth(0,0);
+                drive.setBoth(0,0);*/
+                drive.FrontandBack(.5,750,0);
                 telemetry.addData("VuMark", "%s visible", vuMark);
                 telemetry.update();
                 break;
             }
         }
-        drive.setBoth(.5,.5);//off the ramp
+        /*drive.setBoth(.5,.5);//off the ramp
         sleep(Distance);
-        drive.setBoth(0,0);
+        drive.setBoth(0,0);*/
+        drive.FrontandBack(.5,Distance,0);
         drive.gyroTurn(90);//turn towards the cryptobox
         sleep(1000);
-        drive.setBoth(.5,.5);//go towards correct column
+        /*drive.setBoth(.5,.5);//go towards correct column
         sleep(1500);
-        drive.setBoth(0,0);
+        drive.setBoth(0,0);*/
+        drive.FrontandBack(.5,1500,90);
         drive.bluenotPinch();//release cubes
         drive.rednotPinch();
         drive.setBoth(-.5,-.5);
@@ -184,26 +190,31 @@ public class BlueRightAuto extends LinearOpMode {
         sleep(200);
 
 
-        drive.gyroTurn(0);
-        sleep(100);
+
+
         drive.gyroTurn(-90);
         sleep(500);
         drive.BodGot();
         sleep(100);
         drive.setLift(.5);
-        sleep(1000);
+        sleep(800);
         drive.setLift(0);
         sleep(100);
-        drive.setBoth(.5,5);
-        sleep(2500);
-        drive.setBoth(-.5,-.5);
-        sleep(1000);
+        drive.FrontandBack(.5,2900,-90);
+        drive.NoBodGot();
         drive.bluepinch();
         drive.redpinch();
+        drive.FrontandBack(-.5,1000,-90);
         drive.gyroTurn(90);
-        drive.setBoth(.5,.5);
-        sleep(1500);
-        drive.setBoth(0,0);
+        sleep(100);
+        drive.setLift(-.5);
+        sleep(3000);
+        drive.setLift(0);
+        drive.FrontandBack(.5,2500, 90);
+        drive.bluenotPinch();
+        drive.rednotPinch();
+        drive.FrontandBack(-.5,200,90);
+
 
 
 

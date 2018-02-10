@@ -3,10 +3,13 @@ package org.firstinspires.ftc.teamcode.Devices;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.lynx.LynxI2cColorRangeSensor;
+import com.qualcomm.hardware.lynx.commands.core.LynxGetADCCommand;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
@@ -33,6 +36,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import static com.sun.tools.javac.jvm.ByteCodes.error;
+import static com.sun.tools.javac.jvm.ByteCodes.ret;
 import static com.sun.tools.javac.util.Constants.format;
 import static java.lang.Thread.sleep;
 
@@ -53,6 +57,7 @@ public class DriveBase {
     public Servo upanddown;
     public Servo flag;
     public BNO055IMU imu;
+    public AnalogInput sonar;
     private Orientation angles;
     private Acceleration acceleration;
     private Position position = null;
@@ -119,6 +124,8 @@ public class DriveBase {
         flag = hardwareMap.servo.get("flag");
         color = hardwareMap.colorSensor.get("color");
         distance = hardwareMap.get(DistanceSensor.class, "range");
+        sonar = hardwareMap.get(AnalogInput.class, "sonar");
+
     }
     // Sets power of the two left motors
 
@@ -413,6 +420,11 @@ public class DriveBase {
     }
     public double getDistance(){
         return distance.getDistance(DistanceUnit.MM);
+    }
+    public double getSonar(){
+
+        return (sonar.getVoltage()*1024);
+
     }
     public int[] getColor() {
 

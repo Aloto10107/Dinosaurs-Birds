@@ -103,8 +103,10 @@ public class RedLeftAuto extends LinearOpMode {
                 "  .P\"\n" +
                 " .\"     Gilo94'\n" +
                 "/\"");
-        telemetry.update();
-        waitForStart();
+        while (!isStarted()) {
+            telemetry.addData("sonar",drive.getSonar());
+            telemetry.update();
+        }        waitForStart();
 
         drive.bluepinch();
         drive.redpinch();
@@ -114,7 +116,7 @@ public class RedLeftAuto extends LinearOpMode {
         drive.setLift(0);
         drive.upanddown.setPosition(0);
         Thread.sleep(2500);
-        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .6)
+        if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] >= .5)
         {
             drive.turn(.5,100);
             Thread.sleep(100);
@@ -122,7 +124,7 @@ public class RedLeftAuto extends LinearOpMode {
             Thread.sleep(100);
             drive.turn(-.5,100);
         }
-        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0)
+        else if((drive.getColor()[0] - drive.getColor()[2])*1.0/drive.getColor()[0] <= 0.1)
         {
             drive.turn(-.5,100);
             Thread.sleep(100);
@@ -196,27 +198,20 @@ public class RedLeftAuto extends LinearOpMode {
         sleep(800);
         drive.setLift(0);
         sleep(100);
-        drive.FrontandBack(.5,2500,-90);
-
-/*        sleep(100);
+        drive.FrontandBack(.5,2900,-90);
+        drive.NoBodGot();
         drive.bluepinch();
         drive.redpinch();
-        sleep(100);
-        drive.setBoth(-.5,-.5);
-        sleep(1000);
-        drive.setBoth(0,0);
-        sleep(100);
+        drive.FrontandBack(-.5,1000,-90);
         drive.gyroTurn(90);
         sleep(100);
-        drive.setBoth(.5,.5);
-        sleep(1500);*/
-
-
-
-
-
-
-        drive.setBoth(0,0);
+        drive.setLift(-.5);
+        sleep(3000);
+        drive.setLift(0);
+        drive.FrontandBack(.5,2500, 90);
+        drive.bluenotPinch();
+        drive.rednotPinch();
+        drive.FrontandBack(-.5,200,90);
 
 
         telemetry.addData("error", String.valueOf(drive.Gerror));
