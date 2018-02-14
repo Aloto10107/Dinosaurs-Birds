@@ -101,6 +101,7 @@ public class BlueLeftAuto extends LinearOpMode {
                 "  .P\"\n" +
                 " .\"     Gilo94'\n" +
                 "/\"");
+        drive.flag.setPosition(1);
         while (!isStarted()) {
             telemetry.addData("sonar",drive.getSonar());
             telemetry.update();
@@ -111,7 +112,7 @@ public class BlueLeftAuto extends LinearOpMode {
         drive.redpinch();
         sleep(1000);
         drive.setLift(-.5);
-        sleep(1000);
+        sleep(1500);
         drive.setLift(0);
         drive.upanddown.setPosition(0);
         Thread.sleep(2500);
@@ -144,7 +145,7 @@ public class BlueLeftAuto extends LinearOpMode {
             if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 100000)
             {
                 if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
-                    Distance = 2000;
+                    Distance = 1950;
                 }
                 if(vuMark == RelicRecoveryVuMark.CENTER){
                     Distance = 1250;

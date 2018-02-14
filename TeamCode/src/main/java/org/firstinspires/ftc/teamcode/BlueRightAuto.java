@@ -102,6 +102,7 @@ public class BlueRightAuto extends LinearOpMode {
                 "  .P\"\n" +
                 " .\"     Gilo94'\n" +
                 "/\"");
+        drive.flag.setPosition(1);
         while (!isStarted()) {
             telemetry.addData("sonar",drive.getSonar());
             telemetry.update();
@@ -111,7 +112,7 @@ public class BlueRightAuto extends LinearOpMode {
         drive.redpinch();
         sleep(1000);
         drive.setLift(-.5);
-        sleep(1000);
+        sleep(1500);
         drive.setLift(0);
         drive.upanddown.setPosition(0);
         Thread.sleep(2500);
@@ -143,7 +144,7 @@ public class BlueRightAuto extends LinearOpMode {
             if ((vuMark != null && vuMark != RelicRecoveryVuMark.UNKNOWN) || drive.tears >= 100000)
             {
                 if(vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.UNKNOWN){
-                    Distance = 1450;
+                    Distance = 1400;
                 }
                 if(vuMark == RelicRecoveryVuMark.CENTER){
                     Distance = 850;
@@ -192,28 +193,28 @@ public class BlueRightAuto extends LinearOpMode {
 
 
 
-        drive.gyroTurn(-90);
+       /* drive.gyroTurn(-90);
         sleep(500);
         drive.BodGot();
         sleep(100);
-        drive.setLift(.5);
-        sleep(800);
+        drive.setLift(1);
+        sleep(400);
         drive.setLift(0);
         sleep(100);
-        drive.FrontandBack(.5,2900,-90);
+        drive.FrontandBack(1,1450,-90);
         drive.NoBodGot();
         drive.bluepinch();
         drive.redpinch();
-        drive.FrontandBack(-.5,1000,-90);
+        drive.FrontandBack(-1,500,-90);
         drive.gyroTurn(90);
         sleep(100);
-        drive.setLift(-.5);
-        sleep(3000);
+        drive.setLift(-1);
+        sleep(1500);
         drive.setLift(0);
-        drive.FrontandBack(.5,2500, 90);
+        drive.FrontandBack(1,1250, 90);
         drive.bluenotPinch();
         drive.rednotPinch();
-        drive.FrontandBack(-.5,200,90);
+        drive.FrontandBack(-1,100,90);*/
 
 
 

@@ -103,6 +103,7 @@ public class RedLeftAuto extends LinearOpMode {
                 "  .P\"\n" +
                 " .\"     Gilo94'\n" +
                 "/\"");
+        drive.flag.setPosition(1);
         while (!isStarted()) {
             telemetry.addData("sonar",drive.getSonar());
             telemetry.update();
@@ -112,7 +113,7 @@ public class RedLeftAuto extends LinearOpMode {
         drive.redpinch();
         sleep(1000);
         drive.setLift(-.5);
-        sleep(1000);
+        sleep(1500);
         drive.setLift(0);
         drive.upanddown.setPosition(0);
         Thread.sleep(2500);
@@ -190,7 +191,7 @@ public class RedLeftAuto extends LinearOpMode {
         drive.setBoth(0,0);
 
 
-        drive.gyroTurn(-90);
+/*        drive.gyroTurn(-90);
         sleep(500);
         drive.BodGot();
         sleep(100);
@@ -208,10 +209,11 @@ public class RedLeftAuto extends LinearOpMode {
         drive.setLift(-.5);
         sleep(3000);
         drive.setLift(0);
-        drive.FrontandBack(.5,2500, 90);
+        drive.FrontandBack(.5,2900, 90);
         drive.bluenotPinch();
         drive.rednotPinch();
-        drive.FrontandBack(-.5,200,90);
+        sleep(200);
+        drive.FrontandBack(-.5,200,90);*/
 
 
         telemetry.addData("error", String.valueOf(drive.Gerror));

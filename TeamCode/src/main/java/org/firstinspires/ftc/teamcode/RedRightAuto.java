@@ -102,6 +102,7 @@ public class RedRightAuto extends LinearOpMode {
                 "  .P\"\n" +
                 " .\"     Gilo94'\n" +
                 "/\"");
+        drive.flag.setPosition(1);
         while (!isStarted()) {
             telemetry.addData("sonar",drive.getSonar());
             telemetry.update();
@@ -111,7 +112,7 @@ public class RedRightAuto extends LinearOpMode {
         drive.redpinch();
         sleep(1000);
         drive.setLift(-.5);
-        sleep(1000);
+        sleep(1500);
         drive.setLift(0);
         drive.upanddown.setPosition(0);
         Thread.sleep(2500);
