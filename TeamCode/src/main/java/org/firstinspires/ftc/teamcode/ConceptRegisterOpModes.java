@@ -109,7 +109,7 @@ public class ConceptRegisterOpModes
       // manager.register("Scan Servo",             ConceptScanServo.class);
       // manager.register("Telemetry",              ConceptTelemetry.class);
       // manager.register("Vuforia Navigation",     ConceptVuforiaNavigation.class);
-        manager.register("HoloTeleOp", HoloTeleOp.class);
+        manager.register("TankCrap", TankCrap.class);
         manager.register("AutoBLueRigh", RedRightAuto.class);
         manager.register("vuMark", ConceptVuMarkIdentification.class);
         manager.register("BasicTeleop", basicTeleop.class);

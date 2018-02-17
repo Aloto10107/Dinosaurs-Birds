@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -102,14 +104,11 @@ public class BlueRightAuto extends LinearOpMode {
                 "  .P\"\n" +
                 " .\"     Gilo94'\n" +
                 "/\"");
-        drive.flag.setPosition(1);
         while (!isStarted()) {
             telemetry.addData("sonar",drive.getSonar());
             telemetry.update();
         }        waitForStart();
 
-        drive.bluepinch();
-        drive.redpinch();
         sleep(1000);
         drive.setLift(-.5);
         sleep(1500);
@@ -175,8 +174,6 @@ public class BlueRightAuto extends LinearOpMode {
         sleep(1500);
         drive.setBoth(0,0);*/
         drive.FrontandBack(.5,1500,90);
-        drive.bluenotPinch();//release cubes
-        drive.rednotPinch();
         drive.setBoth(-.5,-.5);
         sleep(800);
         drive.setBoth(0,0);
@@ -225,6 +222,47 @@ public class BlueRightAuto extends LinearOpMode {
         telemetry.addData("blue", drive.getColor()[2]);
         telemetry.addData("Distance", drive.Derror);
         telemetry.update();
+    }
+    public void drive(double power, double distance){
+        ElapsedTime runtime = new ElapsedTime();
+
+        if (opModeIsActive()){
+
+            int targetLeftFront = drive.leftMotors[0].getCurrentPosition() + (int)(distance*drive.COUNTS_PER_CM);
+            int targetRightFront = drive.rightMotors[0].getCurrentPosition() + (int)(distance*drive.COUNTS_PER_CM);
+            int targetLeftBack = drive.leftMotors[1].getCurrentPosition() + (int)(distance*drive.COUNTS_PER_CM);
+            int targetRightBack = drive.rightMotors[1].getCurrentPosition() + (int)(distance*drive.COUNTS_PER_CM);
+
+            drive.leftMotors[0].setTargetPosition(targetLeftFront);
+            drive.rightMotors[0].setTargetPosition(targetRightFront);
+            drive.leftMotors[1].setTargetPosition(targetLeftBack);
+            drive.rightMotors[1].setTargetPosition(targetRightBack);
+
+            drive.leftMotors[0].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            drive.rightMotors[0].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            drive.leftMotors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            drive.rightMotors[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            runtime.reset();
+            drive.rightMotors[0].setPower(Math.abs(power));
+            drive.leftMotors[1].setPower(Math.abs(power));
+            drive.leftMotors[1].setPower(Math.abs(power));
+            drive.leftMotors[0].setPower(Math.abs(power));
+
+            while (opModeIsActive() && drive.rightMotors[0].isBusy() && drive.leftMotors[0].isBusy() && drive.rightMotors[1].isBusy() && drive.leftMotors[1].isBusy() && (runtime.seconds() < 5)){
+                telemetry.addData("Path1",  "Running to %7d :%7d", targetLeftFront,  targetRightFront);
+                telemetry.addData("Path2",  "Running at %7d :%7d",
+                        drive.leftMotors[0].getCurrentPosition(),
+                        drive.rightMotors[0].getCurrentPosition());
+                telemetry.update();
+            }
+            drive.rightMotors[0].setPower(0);
+            drive.leftMotors[1].setPower(0);
+            drive.leftMotors[1].setPower(0);
+            drive.leftMotors[0].setPower(0);
+
+
+        }
     }
 }
 

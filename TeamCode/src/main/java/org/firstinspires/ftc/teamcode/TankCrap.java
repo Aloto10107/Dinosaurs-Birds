@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.Devices.DriveBase;
  */
 
 @TeleOp(name = "HoloTeleOp", group = "Driver Controlled")
-public class basicTeleop extends OpMode {
+public class TankCrap extends OpMode {
 
     public DriveBase drive;
     private boolean preLeftBumper = true;
@@ -44,15 +44,17 @@ public class basicTeleop extends OpMode {
         double leftY = gamepad1.left_stick_y;
         double leftX = gamepad1.left_stick_x;
         double rightX = gamepad1.right_stick_x;
+        double rightY = gamepad1.right_stick_y;
+
 
         leftY = Math.pow(leftY, 3);
         leftX = Math.pow(leftX, 3);
         //rightX = Math.pow(rightX, 3);
 
-        drive.rightMotors[0].setPower(leftY + rightX);
-        drive.rightMotors[1].setPower(leftY + rightX);
-        drive.leftMotors[0].setPower(leftY - rightX);
-        drive.leftMotors[1].setPower(leftY - rightX);
+        drive.rightMotors[0].setPower(rightY);
+        drive.rightMotors[1].setPower(rightY);
+        drive.leftMotors[0].setPower(leftY);
+        drive.leftMotors[1].setPower(leftY);
 
         drive.setLift(0.9 * (gamepad2.left_stick_y));
         drive.setSidearm(0.9 * (gamepad2.right_stick_x));
@@ -112,7 +114,6 @@ public class basicTeleop extends OpMode {
                 e.printStackTrace();
             }
         }
-
 
 //there are 26 lightning bolts on the robot
         if (gamepad2.a) {
